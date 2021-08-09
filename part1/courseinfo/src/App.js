@@ -4,34 +4,26 @@ const Header = (props) => (
     <h1>{props.name}</h1>
 )
 
-const Part = (props) => {
-  return (
-    <div>
-      <h2>{props.parts.name}</h2>
-      <p>There are <u><b>{props.parts.exercises}</b></u> exercises in this part of the course.</p>
-    </div>
-  )
-}
+const Part = (props) => (
+    <>
+      <h2>{props.part.name}</h2>
+      <p>There are <u><b>{props.part.exercises}</b></u> exercises in this part of the course.</p>
+    </>
+)
 
-const Content = (props) => {
-  return (
-    <div>
-      <Part parts={props.parts[0]} />
-      <Part parts={props.parts[1]} />
-      <Part parts={props.parts[2]} />
-    </div>
-  )
-}
+const Content = (props) => (
+    <>
+      <Part part={props.parts[0]} />
+      <Part part={props.parts[1]} />
+      <Part part={props.parts[2]} />
+    </>
+)
 
 const Total = (props) => {
-  let total = 0;
-  // for (let part of props.parts) { // props.parts.forEach(part => {total += part.exercises;})
+  let total = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises;
+  // props.parts.forEach(part => {
   //   total += part.exercises;
-  // }
-
-  props.parts.forEach(part => {
-    total += part.exercises;
-  })
+  // })
   return (
     <>
       <p>There are <u><b>{total}</b></u> exercises in total.</p>
