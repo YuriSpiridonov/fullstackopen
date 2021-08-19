@@ -1,27 +1,36 @@
 import React from 'react';
 
+const H1Header = ({ header }) => <h1>{header}</h1>
+
+const H2Header = ({ header }) => <h2>{header}</h2>
+
+const Total = ({ course }) => {
+  const total = course.parts.reduce((s, p) => s + p.exercises, 0)
+  return (
+    <p>
+    <strong>total of {total} exercises</strong>
+    </p>
+  )
+}
+
+const Part = ({ part }) => <li>{part.name} {part.exercises}</li>
+
 const Course = ({ courses }) => {
     return (
       <div>
-        <h1>Web develepment curriculum</h1>
+        <H1Header header='Web develepment curriculum' />
         {courses.map(course => {
-          console.log(course.name)
-          const total = course.parts.reduce((s, p) => s + p.exercises, 0)
-          console.log(total)
           return (
             <div>
-              <h2 key={course.id}>{course.name}</h2>
+              <H2Header key={course.id} header={course.name} />
               <ul>
                 {course.parts.map(part =>
-                  <li key={part.id}>
-                    {part.name} {part.exercises}
-                  </li>
+                  <Part key={part.id} part={part} />
                 )}
               </ul>
-              <b>total of {total} exercises</b>
+              <Total course={course} />
             </div>
-          )
-        }
+          )}
         )}
       </div>
     )
