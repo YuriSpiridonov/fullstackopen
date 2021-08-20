@@ -1,6 +1,8 @@
 import React from 'react';
 import Course from './components/Course'
 
+const H1Header = ({ header }) => <h1>{header}</h1>
+
 const App = () => {
   const courses = [
     {
@@ -47,11 +49,22 @@ const App = () => {
     }
   ]
 
+if(courses.length > 0) {
   return (
     <div>
-      <Course courses={courses} />
+      <H1Header header='Web develepment curriculum' />
+      {courses.map((course) => (
+      <Course key={course.id} course={course} />
+      ))}
     </div>
-  )
+    )
+  }
+return (
+<div>
+  <H1Header header='Web develepment curriculum' />
+  <p>Course curriculum is empty.</p>
+</div>
+)
 }
 
 export default App;
