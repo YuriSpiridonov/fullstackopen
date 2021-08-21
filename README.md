@@ -27,3 +27,4 @@ Description will be added later.
 ### Part 2 - [Communicating with server](https://fullstackopen.com/en/part2)
 Description will be added later.
 - [courseinfo](/part2/courseinfo) - Extended Course info app from part 1.
+- [phonebook](/part2/phonebook) - Phone book, details will be added later.

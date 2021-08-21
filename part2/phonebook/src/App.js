@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
-const Person = ({ persone }) => <li key={persone.name}>{persone.name}</li>
+const Person = ({ person }) => <li key={person.name}>{person.name}</li>
+
+const Alert = ({ name }) => window.alert(`${name} is already added to phonebook`);
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -8,14 +10,18 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   
-  const addPersone = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
     const noteObject = {
       name: newName,
     }
 
-    setPersons(persons.concat(noteObject))
-    setNewName('')
+    if (persons.find((person) => person.name === noteObject.name)) {
+      Alert(noteObject)
+    } else {
+      setPersons(persons.concat(noteObject))
+      setNewName('')
+    }
   }
 
   const handleNameChange = (event) => {
@@ -25,11 +31,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPersone}>
+      <form onSubmit={addPerson}>
         <div>
           name: <input 
             value={newName}
             onChange={handleNameChange}
+            // onChange={checkPerson}
           />
         </div>
         <div>
@@ -38,8 +45,8 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(persone => 
-          <Person key={persone.name} persone={persone} />
+        {persons.map(person => 
+          <Person key={person.name} person={person} />
         )}
         
       </ul>
