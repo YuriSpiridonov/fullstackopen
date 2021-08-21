@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 
-const Person = ({ person }) => <li key={person.name}>{person.name}</li>
+const Person = ({ person }) => <li key={person.name}>{person.name} {person.number}</li>
 
 const Alert = ({ name }) => window.alert(`${name} is already added to phonebook`);
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas',
+      number: '49-178-3452143'
+    }
   ]) 
   const [ newName, setNewName ] = useState('')
-  
+
+  const [ newNumber, setNewNumber ] = useState('')
+
   const addPerson = (event) => {
     event.preventDefault()
     const noteObject = {
       name: newName,
+      number: newNumber,
     }
 
     if (persons.find((person) => person.name === noteObject.name)) {
@@ -21,11 +26,16 @@ const App = () => {
     } else {
       setPersons(persons.concat(noteObject))
       setNewName('')
+      setNewNumber('')
     }
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -36,7 +46,12 @@ const App = () => {
           name: <input 
             value={newName}
             onChange={handleNameChange}
-            // onChange={checkPerson}
+          />
+        </div>
+        <div>
+          number: <input 
+            value={newNumber}
+            onChange={handleNumberChange}
           />
         </div>
         <div>
