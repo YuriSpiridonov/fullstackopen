@@ -18,6 +18,7 @@ const Weather = ({ capital }) => {
 
   return (
     <div>
+      <h2>Weather in {capital}</h2>
       <p><strong>temperature:</strong> {weather.temperature} Celcius</p>
       <img src={weather.weather_icons} />
       <p><strong>wind:</strong> {weather.wind_speed} km/h direction {weather.wind_dir}</p>
