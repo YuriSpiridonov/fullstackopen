@@ -1,5 +1,6 @@
 import React from 'react'
 import Country from './Country'
+import CountryInfo from './CountryInfo'
 
 const Countries = ({ countries, filterValue }) => {
   let filtered = []
@@ -17,16 +18,9 @@ const Countries = ({ countries, filterValue }) => {
   } else if (filtered.length === 1) {
     return (
       <div>
-        <h1>{filtered[0].name}</h1>
-          <p>capital {filtered[0].capital}</p>
-          <p>population {filtered[0].population}</p>
-        <h2>languages</h2>
-          <ul>
-            {filtered[0].languages.map(language => <li key={language.name}>{language.name}</li>)}
-          </ul>
-        <img src={filtered[0].flag} width="33%" height="33%" />
+      <CountryInfo country={filtered[0]} />
       </div>
-        )
+    )
   } else {
     return (
       <div>
