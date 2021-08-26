@@ -28,3 +28,4 @@ Description will be added later.
 Description will be added later.
 - [courseinfo](/part2/courseinfo) - Extended Course info app from part 1.
 - [phonebook](/part2/phonebook) - Phone book, details will be added later.
+- [dataforcountries](/part2/dataforcountries) - A react app that fetches and displays information form the [REST Countries](https://restcountries.eu) and [Weatcher Stack](https://weatherstack.com/) API's.
