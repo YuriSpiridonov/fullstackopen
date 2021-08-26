@@ -135,3 +135,6 @@ sketch
 
 # sandbox
 sandbox/
+
+# VSCode
+.vscode
