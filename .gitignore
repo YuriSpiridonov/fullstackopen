@@ -74,12 +74,11 @@ web_modules/
 
 # dotenv environment variables file
 .env
-**/.env
+# **/.env
 .env.local
 .env.test
 .env.production
-process.env
-**/process.env
+# process.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -142,5 +141,4 @@ sandbox/
 
 # VSCode
 .vscode/
-**/.vscode/
-./part2/dataforcountries/.vscode/
+# ./part2/dataforcountries/.vscode/
