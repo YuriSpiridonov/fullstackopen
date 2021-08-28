@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import Alert from './components/Alert'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -13,10 +13,10 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }
 
@@ -24,18 +24,22 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const noteObject = {
+    const personObject = {
       name: newName,
       number: newNumber,
     }
 
     if (persons.find(person => 
-        person.name.toLowerCase() === noteObject.name.toLowerCase())) {
-      Alert(noteObject)
+      person.name.toLowerCase() === personObject.name.toLowerCase())) {
+        Alert(personObject)
     } else {
-      setPersons(persons.concat(noteObject))
-      setNewName('')
-      setNewNumber('')
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
