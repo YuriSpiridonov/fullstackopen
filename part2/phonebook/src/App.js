@@ -21,6 +21,9 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
+      .catch(error => 
+        console.error(error)
+      )
   }
 
   useEffect(getAllHook, [])
@@ -37,7 +40,8 @@ const App = () => {
 
     if (checkPerson && checkPerson.number === newNumber) {
       Alert(personObject)      
-    } else if (checkPerson && checkPerson.number !== newNumber) {
+    } 
+    if (checkPerson && checkPerson.number !== newNumber) {
       const confirmNewNumber = window.confirm(`Are you sure you want update ${checkPerson.name}'s number with a new one?`)
       
       if (confirmNewNumber) {
@@ -46,24 +50,49 @@ const App = () => {
           .update(checkPerson.id, personUpdate)
           .then(returnedPerson =>{
             setPersons(
-              persons.map(person =>
-                person.id !== checkPerson.id ? person : returnedPerson
+              persons
+                .map(person =>
+                  person.id !== checkPerson.id 
+                    ? person 
+                    : returnedPerson
               )
             )
+            setNotification({
+              text: `${checkPerson.name}'s number was updated.`,
+              type: 'notification'
+            })
+            setTimeout(() => setNotification(null), 5000)      
           })
-        setNotification({
-          text: `${checkPerson.name}'s number was updated.`,
-          type: 'notification'
-        })
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
+          .catch(error =>
+            setPersons(persons
+              .filter(person => 
+                person.name !== checkPerson.name
+              )
+            )
+          )
+            setNotification({
+              text: `${checkPerson.name} has already been deleted from the server.`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000)
       }
-    } else {
+    } 
+    if (!checkPerson) {
       personService
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+        })
+        .catch(error => {
+          setNotification({
+            text: error.response.data.error, 
+            type: 'error'
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
       setNotification({
         text: `${personObject.name} added to the phonebook.`,
@@ -88,6 +117,13 @@ const App = () => {
           persons.map(person => person.id !== id ? person : returnedPerson)
         })
       setPersons(persons.filter(person => person.id !== id))
+      setNotification({
+        text: `${person.name} was deleted from the phonebook.`,
+        type: 'notification'
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
