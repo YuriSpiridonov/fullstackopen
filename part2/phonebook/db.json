@@ -1,14 +1,39 @@
 {
   "persons": [
     {
-      "name": "bob",
-      "number": "123",
+      "name": "Arto Hellas",
+      "number": "49 123 45634",
       "id": 1
     },
     {
-      "name": "blob",
-      "number": "3423423",
+      "name": "Ada Lovelace",
+      "number": "358 456123 21",
+      "id": 2
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": 3
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122",
+      "id": 4
+    },
+    {
+      "name": "Bob M.",
+      "number": "49 158 4534222",
       "id": 5
+    },
+    {
+      "name": "Margarita Schmidt",
+      "number": "49 564 1234533",
+      "id": 6
+    },
+    {
+      "name": "Mikki Bow",
+      "number": "358 345 1234",
+      "id": 7
     }
   ]
 }

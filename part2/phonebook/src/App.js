@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+
 import Alert from './components/Alert'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+
 import personService from './services/persons'
 
 const App = () => {
@@ -29,18 +31,35 @@ const App = () => {
       number: newNumber
     }
 
-    if (persons.find(person => 
-      person.name.toLowerCase() === personObject.name.toLowerCase())) {
-        Alert(personObject)
+    const checkPerson = persons.find(person => 
+      person.name.toLowerCase() === personObject.name.toLowerCase())
+
+    if (checkPerson && checkPerson.number === newNumber) {
+      Alert(personObject)
+    } else if (checkPerson && checkPerson.number !== newNumber) {
+      const confirmNewNumber = window.confirm(`Are you sure you want update ${checkPerson.name}'s number with a new one?`)
+      
+      if (confirmNewNumber) {
+        const personUpdate = { ...checkPerson, number: newNumber }
+        personService
+          .update(checkPerson.id, personUpdate)
+          .then(returnedPerson =>{
+            setPersons(
+              persons.map(person =>
+                person.id !== checkPerson.id ? person : returnedPerson
+              )
+            )
+          })
+      }
     } else {
       personService
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-          setNewName('')
-          setNewNumber('')
         })
     }
+    setNewName('')
+    setNewNumber('')
   }
 
   const deletePerson = (id) => {
@@ -69,7 +88,11 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-  return (
+  const personsAfterFilter = 
+    filter === ''  ? persons : persons.filter(person => 
+      person.name.toLowerCase().includes(filter.toLowerCase()))
+
+      return (
     <div>
       <h2>Phonebook</h2>
       <Filter
@@ -86,8 +109,7 @@ const App = () => {
       />
       <h3>Numbers</h3>
       <Persons
-        persons={persons}
-        filterValue={filter}
+        persons={personsAfterFilter}
         deletePerson={deletePerson}
       />
     </div>
