@@ -4,6 +4,7 @@ import Alert from './components/Alert'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 import personService from './services/persons'
 
@@ -11,8 +12,8 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-
   const [ filter, setFilter ] = useState('')
+  const [ notification, setNotification ] = useState(null)
 
   const getAllHook = () => {
     personService
@@ -35,7 +36,7 @@ const App = () => {
       person.name.toLowerCase() === personObject.name.toLowerCase())
 
     if (checkPerson && checkPerson.number === newNumber) {
-      Alert(personObject)
+      Alert(personObject)      
     } else if (checkPerson && checkPerson.number !== newNumber) {
       const confirmNewNumber = window.confirm(`Are you sure you want update ${checkPerson.name}'s number with a new one?`)
       
@@ -50,6 +51,13 @@ const App = () => {
               )
             )
           })
+        setNotification({
+          text: `${checkPerson.name}'s number was updated.`,
+          type: 'notification'
+        })
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       }
     } else {
       personService
@@ -57,6 +65,13 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
         })
+      setNotification({
+        text: `${personObject.name} added to the phonebook.`,
+        type: 'notification'
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
     setNewName('')
     setNewNumber('')
@@ -95,6 +110,7 @@ const App = () => {
       return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter
         filter={filter}
         handleFilter={handleFilter}
