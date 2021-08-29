@@ -7,7 +7,7 @@ const Weather = ({ capital }) => {
 
   const hook = () => {
     axios
-      .get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${capital}`)  // f12fea132bf457cb4bf9d3b683f924ed  process.env.REACT_APP_API_KEY
+      .get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${capital}`)
       .then(response => {
         setWeather(response.data.current)
       })
