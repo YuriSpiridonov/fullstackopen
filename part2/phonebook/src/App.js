@@ -12,7 +12,7 @@ const App = () => {
 
   const [ filter, setFilter ] = useState('')
 
-  const hook = () => {
+  const getAllHook = () => {
     personService
       .getAll()
       .then(initialPersons => {
@@ -20,13 +20,13 @@ const App = () => {
       })
   }
 
-  useEffect(hook, [])
+  useEffect(getAllHook, [])
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
       name: newName,
-      number: newNumber,
+      number: newNumber
     }
 
     if (persons.find(person => 
@@ -40,6 +40,20 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+    }
+  }
+
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    const confirmDelete = window.confirm(`Are you sure you want to delete ${person.name}?`)
+    
+    if (confirmDelete) {
+      personService
+        .remove(id)
+        .then(returnedPerson => {
+          persons.map(person => person.id !== id ? person : returnedPerson)
+        })
+      setPersons(persons.filter(person => person.id !== id))
     }
   }
 
@@ -74,6 +88,7 @@ const App = () => {
       <Persons
         persons={persons}
         filterValue={filter}
+        deletePerson={deletePerson}
       />
     </div>
   )
