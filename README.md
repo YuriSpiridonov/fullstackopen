@@ -1,7 +1,7 @@
 # University of Helsinki - Full Stack Open - 2021
 
 ### About the course
-The course introduce to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. This course covers: React, Redux, Node.js, MongoDB, GraphQL and TypeScript.
+The course introduce to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use REST APIs built with _Node.js_. This course covers: _React_, _Redux_, _Node.js_, _MongoDB_, _GraphQL_ and _TypeScript_.
 
 ### About this repository
 This repository contains my own exercise solutions to the 2021 edition of the [Full Stack Open](https://fullstackopen.com/en) course from the [University of Helsinki](https://www.helsinki.fi/en).
@@ -15,7 +15,7 @@ An overall introduction to the course. It introduces to some concepts like HTTP 
 [View solutions folder](/part0)
 
 ### Part 1 - [Introduction to React](https://fullstackopen.com/en/part1)
-This part introduces to React concepts. It covers the basics: components, props, JSX and more advanced concepts: Javascript functionalities that are used a lot in React (`.map()`, `.filter()`, `reduce()`), destructuring, event handlers in React and passing state to child components, spread operator, hooks and their rules and conditional rendering.
+This part introduces to React concepts. It covers the basics: components, props, JSX and more advanced concepts: Javascript functionalities that are used a lot in React (`.map()`, `.filter()`, `.reduce()`), destructuring, event handlers in React and passing state to child components, spread operator, hooks and their rules and conditional rendering.
 - [courseinfo](/part1/courseinfo) - Simple course information page which counts total number of exercises of the course.
 - [unicafe](/part1/unicafe) - This app gathers feedbacks and makes statistic.
 - [anecdotes](/part1/anecdotes) - This app provides to vote for a random anecdote, also shows the most voted anecdote.
