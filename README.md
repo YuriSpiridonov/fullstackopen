@@ -31,3 +31,7 @@ This part covers how to display list items in React and how to handle forms. Int
 ### Part 3 - [Programming a server with NodeJS and Express](https://fullstackopen.com/en/part3)
 This part is focused on the backend. How to: implement a simple REST API in _Node.js_ using _Express_, connect to a database (_MongoDB_) to store and retrieve data, deploy your app.
 The App can be found [here](https://phonebook6.herokuapp.com/).
+
+### Part 4 - [Testing Express servers, user administration](https://fullstackopen.com/en/part4)
+This part is focused on testing _Node.js_ applications, async/await, user administration, references across collections, token based authentication.
+- [bloglist](/part4/bloglist) - Allows users to save information (blog author, title, url, and amount of upvotes from users) about interesting blogs they have stumbled across on the internet.
