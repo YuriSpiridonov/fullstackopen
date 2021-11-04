@@ -1,7 +1,12 @@
 const http = require('http')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
+
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
+
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
@@ -11,10 +16,12 @@ const blogSchema = new mongoose.Schema({
   likes: Number
 })
 
+// const server = http.createServer()
+
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = 'mongodb+srv://LOGIN:PASSWORD@cluster0.xwerp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(mongoUrl)
+// const mongoUrl = 'mongodb+srv://LOGIN:PASSWORD@cluster0.xwerp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+mongoose.connect(config.MONGODB_URI)
 
 app.use(cors())
 app.use(express.json())
@@ -37,7 +44,7 @@ app.post('/api/blogs', (request, response) => {
     })
 })
 
-const PORT = 3003
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+// const PORT = 3003
+app.listen(config.PORT, () => {
+  console.log(`Server is running on port ${config.PORT}`)
 })
