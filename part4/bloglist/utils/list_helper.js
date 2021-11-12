@@ -26,20 +26,41 @@ const mostBlogs = (blogs) => {
     authors[blog.author] = authors[blog.author] ? authors[blog.author] + 1 : 1
   })
 
-  for (const [key, value] of Object.entries(authors)) {
-    if (value > popularAuthor.blogs) {
-      popularAuthor.author = key
-      popularAuthor.blogs = value
+  for (const [author, blogs] of Object.entries(authors)) {
+    if (blogs > popularAuthor.blogs) {
+      popularAuthor.author = author
+      popularAuthor.blogs = blogs
     }
   }
 
   return popularAuthor
+}
 
+const mostLikes = (blogs) => {
+  const authors = {}
+  const popularAuthor = {
+    author: '',
+    likes: 0
+  }
+
+  blogs.forEach((blog) => {
+    authors[blog.author] = authors[blog.author] ? authors[blog.author] + blog.likes : blog.likes
+  })
+
+  for (const [author, likes] of Object.entries(authors)) {
+    if (likes > popularAuthor.likes) {
+      popularAuthor.author = author
+      popularAuthor.likes = likes
+    }
+  }
+
+  return popularAuthor
 }
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
