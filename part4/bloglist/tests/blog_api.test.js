@@ -31,6 +31,15 @@ describe('Blogs API tests:', () => {
   })
 })
 
+describe('Check ID definition:', () => {
+  test('is ID written in `id` field insted of `_id`', async () => {
+    const response = await api
+      .get('/api/blogs')
+
+    expect(response.body[0].id).toBeDefined()
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
