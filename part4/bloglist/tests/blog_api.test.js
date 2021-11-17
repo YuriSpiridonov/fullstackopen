@@ -15,7 +15,7 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-describe('Blogs API tests:', () => {
+describe('Blogs API GET reqests tests:', () => {
   test('blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
@@ -28,6 +28,50 @@ describe('Blogs API tests:', () => {
       .get('/api/blogs')
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('check if a blog posts without likes are exist', async () => {
+    const blogs = await helper.blogsInDb()
+    const likes = blogs.map(r => r.likes)
+    expect(likes).toContain(0)
+  })
+})
+
+describe('Blogs API POST requests tests:', () => {
+  test('testing adding new entrie to DB', async () => {
+    const newBlog = {
+      title: 'Test blog entry',
+      author: 'Yuri',
+      url: 'localhost',
+      likes: 350,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const contents = blogsAtEnd.map(r => r.title)
+    expect(contents).toContain('Test blog entry')
+  }, 100000)
+
+  test('testing incorrect POST request without title and url', async () => {
+    const newBlog = {
+      author: 'Yuri',
+      likes: 350,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 })
 
