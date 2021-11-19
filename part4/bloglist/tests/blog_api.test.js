@@ -59,6 +59,32 @@ describe('Blogs API POST requests tests:', () => {
     expect(contents).toContain('Test blog entry')
   }, 100000)
 
+  test('testing adding new entrie WITOUT LIKES to DB', async () => {
+    const newBlog = {
+      title: 'Test blog entry2',
+      author: 'Yuri',
+      url: 'localhost',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const contents = blogsAtEnd.map(r => r.likes)
+
+    expect(
+      contents.reduce(
+        (c, n) => (n === 0 ? c + 1: c), 0
+      )
+    ).toBe(2)
+
+  }, 100000)
+
   test('testing incorrect POST request without title and url', async () => {
     const newBlog = {
       author: 'Yuri',
@@ -81,6 +107,27 @@ describe('Check ID definition:', () => {
       .get('/api/blogs')
 
     expect(response.body[0].id).toBeDefined()
+  })
+})
+
+describe('Testing DELETE request',  () => {
+  test('deleting saved blog from DB', async () => {
+    const currentBlogsInDb = await helper.blogsInDb()
+    const blogToDelete = currentBlogsInDb[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAfterDelete = await helper.blogsInDb()
+
+    expect(blogsAfterDelete).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const contents = blogsAfterDelete.map(r => r.title)
+
+    expect(contents).not.toContain(blogToDelete.title)
   })
 })
 
