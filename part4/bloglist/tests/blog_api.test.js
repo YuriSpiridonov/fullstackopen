@@ -15,30 +15,39 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-describe('Blogs API GET reqests tests:', () => {
-  test('blogs are returned as JSON', async () => {
+describe('Check ID definition:', () => {
+  test('Is ID field defined as `id` insted of `_id`', async () => {
+    const response = await api
+      .get('/api/blogs')
+
+    expect(response.body[0].id).toBeDefined()
+  })
+})
+
+describe('Testing GET reqest(s):', () => {
+  test('Blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
   }, 100000)
 
-  test('all blogs are returned', async () => {
+  test('All blogs are returned', async () => {
     const response = await api
       .get('/api/blogs')
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
-  test('check if a blog posts without likes are exist', async () => {
+  test('Check if a blog posts without likes (zero likes) are exist', async () => {
     const blogs = await helper.blogsInDb()
     const likes = blogs.map(r => r.likes)
     expect(likes).toContain(0)
   })
 })
 
-describe('Blogs API POST requests tests:', () => {
-  test('testing adding new entrie to DB', async () => {
+describe('Testing POST request(s):', () => {
+  test('Adding new entrie to DB', async () => {
     const newBlog = {
       title: 'Test blog entry',
       author: 'Yuri',
@@ -59,7 +68,7 @@ describe('Blogs API POST requests tests:', () => {
     expect(contents).toContain('Test blog entry')
   }, 100000)
 
-  test('testing adding new entrie WITOUT LIKES to DB', async () => {
+  test('Adding new entrie WITOUT LIKES to DB', async () => {
     const newBlog = {
       title: 'Test blog entry2',
       author: 'Yuri',
@@ -85,7 +94,7 @@ describe('Blogs API POST requests tests:', () => {
 
   }, 100000)
 
-  test('testing incorrect POST request without title and url', async () => {
+  test('POST request without title and url', async () => {
     const newBlog = {
       author: 'Yuri',
       likes: 350,
@@ -101,17 +110,8 @@ describe('Blogs API POST requests tests:', () => {
   })
 })
 
-describe('Check ID definition:', () => {
-  test('is ID written in `id` field insted of `_id`', async () => {
-    const response = await api
-      .get('/api/blogs')
-
-    expect(response.body[0].id).toBeDefined()
-  })
-})
-
-describe('Testing DELETE request',  () => {
-  test('deleting saved blog from DB', async () => {
+describe('Testing DELETE request(s):',  () => {
+  test('Deleting saved blog from DB', async () => {
     const currentBlogsInDb = await helper.blogsInDb()
     const blogToDelete = currentBlogsInDb[0]
 
@@ -129,6 +129,24 @@ describe('Testing DELETE request',  () => {
 
     expect(contents).not.toContain(blogToDelete.title)
   })
+})
+
+describe('Testing PUT request(s):', () => {
+  test('Updating likes in post', async () => {
+    const currentBlogsInDb = await helper.blogsInDb()
+    const blogToUpdate = currentBlogsInDb[0]
+    blogToUpdate.likes = 666
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+
+    const blogsAfterUpdate = await helper.blogsInDb()
+    const contents = blogsAfterUpdate.map(r => r.likes)
+
+    expect(contents).toContain(666)
+  }, 100000)
 })
 
 afterAll(() => {
