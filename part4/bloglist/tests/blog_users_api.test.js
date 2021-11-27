@@ -41,6 +41,100 @@ describe('Testing adding users:', () => {
     const usernames = usersAtEnd.map(user => user.username)
     expect(usernames).toContain(newUser.username)
   }, 10000)
+
+  test('creating an invalid user (short username)', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'ad',
+      name: 'Yuri',
+      password: 'password'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('username is too short')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(user => user.username)
+    expect(usernames).not.toContain(newUser.username)
+  }, 10000)
+
+  test('creating an invalid user (short password)', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'admin',
+      name: 'Yuri',
+      password: 'pa'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('password is too short or missing')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(user => user.username)
+    expect(usernames).not.toContain(newUser.username)
+  }, 10000)
+
+  test('creating an invalid user (username is missing)', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name: 'Yuri',
+      password: 'password'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    // expect(result.body.error).toContain('password is too short')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(user => user.username)
+    expect(usernames).not.toContain(newUser.username)
+  }, 10000)
+
+  test('creating an invalid user (password is missing)', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'administrator',
+      name: 'Yuri'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    // expect(result.body.error).toContain('password is too short or missing')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(user => user.username)
+    expect(usernames).not.toContain(newUser.username)
+  }, 10000)
 })
 
 afterAll(() => {
