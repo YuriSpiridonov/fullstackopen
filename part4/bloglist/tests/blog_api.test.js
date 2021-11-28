@@ -1,18 +1,48 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
+beforeEach(async () => {
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('secret', 10)
+  const user = new User({
+    username: 'root',
+    name: 'adminko',
+    blogs: [],
+    passwordHash
+  })
+
+  await user.save()
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
 
+  const users = await User.find({})
+  const user = users[0]
+  const id = users[0]._id
+
   const blogObject = helper.initialBlogs
-    .map(blog => new Blog(blog))
-  const promiseArray = blogObject.map(blog => blog.save())
+    .map(blog => new Blog({
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      user: id,
+      likes: blog.likes ? blog.likes : 0
+    }))
+  const promiseArray = blogObject.map(blog => {
+    blog.save()
+    user.blogs = user.blogs.concat(blog._id)
+  })
   await Promise.all(promiseArray)
+  await user.save()
 })
 
 describe('Check ID definition:', () => {
@@ -147,6 +177,20 @@ describe('Testing PUT request(s):', () => {
 
     expect(contents).toContain(666)
   }, 100000)
+})
+
+describe ('Testing creator info:', () => {
+  test ('creators id', async () => {
+    const users = await User.find({})
+    const id = users[0]._id
+
+    const blogs = await helper.blogsInDb()
+    console.log(blogs)
+    console.log(users)
+    const contents = blogs.map(response => response.user)
+    // console.log(contents)
+    expect(contents).toContainEqual(id)
+  })
 })
 
 afterAll(() => {
