@@ -127,7 +127,7 @@ describe('Testing adding users:', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    // expect(result.body.error).toContain('password is too short or missing')
+    expect(result.body.error).toContain('password is too short or missing')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
