@@ -27,14 +27,14 @@ beforeEach(async () => {
 
   const users = await User.find({})
   const user = users[0]
-  const id = users[0]._id
+  const id = users[0]._id//.toString()
 
   const blogObject = helper.initialBlogs
     .map(blog => new Blog({
       title: blog.title,
       author: blog.author,
       url: blog.url,
-      user: id,
+      user: id.toString(),
       likes: blog.likes ? blog.likes : 0
     }))
   const promiseArray = blogObject.map(blog => {
@@ -60,12 +60,19 @@ describe('Testing GET reqest(s):', () => {
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
-  }, 100000)
+  }, 10000)
 
   test('All blogs are returned', async () => {
     const response = await api
       .get('/api/blogs')
 
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('All blogs are containing info about creator', async () => {
+    const response = await api
+      .get('/api/blogs')
+    // console.log(` RESPONSE ${response.body}`)
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
@@ -78,11 +85,16 @@ describe('Testing GET reqest(s):', () => {
 
 describe('Testing POST request(s):', () => {
   test('Adding new entrie to DB', async () => {
+    const users = await User.find({})
+    const user = users[0]
+    const id = users[0]._id//.toString()
+
     const newBlog = {
       title: 'Test blog entry',
       author: 'Yuri',
       url: 'localhost',
       likes: 350,
+      user: id
     }
 
     await api
@@ -96,13 +108,18 @@ describe('Testing POST request(s):', () => {
 
     const contents = blogsAtEnd.map(r => r.title)
     expect(contents).toContain('Test blog entry')
-  }, 100000)
+  }, 10000)
 
   test('Adding new entrie WITOUT LIKES to DB', async () => {
+    const users = await User.find({})
+    const user = users[0]
+    const id = users[0]._id//.toString()
+
     const newBlog = {
       title: 'Test blog entry2',
       author: 'Yuri',
       url: 'localhost',
+      user: id
     }
 
     await api
@@ -122,7 +139,7 @@ describe('Testing POST request(s):', () => {
       )
     ).toBe(2)
 
-  }, 100000)
+  }, 10000)
 
   test('POST request without title and url', async () => {
     const newBlog = {
@@ -176,7 +193,7 @@ describe('Testing PUT request(s):', () => {
     const contents = blogsAfterUpdate.map(r => r.likes)
 
     expect(contents).toContain(666)
-  }, 100000)
+  }, 10000)
 })
 
 describe ('Testing creator info:', () => {
@@ -185,11 +202,12 @@ describe ('Testing creator info:', () => {
     const id = users[0]._id
 
     const blogs = await helper.blogsInDb()
-    console.log(blogs)
-    console.log(users)
+    // console.log(blogs)
+    // console.log(users)
     const contents = blogs.map(response => response.user)
     // console.log(contents)
     expect(contents).toContainEqual(id)
+    // expect(contents[0]).toContain(id)
   })
 })
 
