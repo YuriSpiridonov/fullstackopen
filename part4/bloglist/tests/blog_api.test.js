@@ -112,7 +112,7 @@ describe('Testing POST request(s):', () => {
 
   test('Adding new entrie WITOUT LIKES to DB', async () => {
     const users = await User.find({})
-    const user = users[0]
+    // const user = users[0]
     const id = users[0]._id//.toString()
 
     const newBlog = {
@@ -142,9 +142,14 @@ describe('Testing POST request(s):', () => {
   }, 10000)
 
   test('POST request without title and url', async () => {
+    const users = await User.find({})
+    // const user = users[0]
+    const id = users[0]._id//.toString()
+
     const newBlog = {
       author: 'Yuri',
       likes: 350,
+      user: id
     }
 
     await api

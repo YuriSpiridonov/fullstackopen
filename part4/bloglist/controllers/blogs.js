@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const mongoose = require('mongoose')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -13,7 +14,15 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
+  if (!mongoose.Types.ObjectId.isValid(body.user)) {
+    return response.status(404).end()
+  }
+
   const user = await User.findById(body.user)
+
+  if (!user) {
+    return response.status(404).end()
+  }
 
   const blog = new Blog({
     title: body.title,
