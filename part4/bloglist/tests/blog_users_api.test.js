@@ -7,19 +7,20 @@ const bcrypt = require('bcrypt')
 
 const User = require('../models/user')
 
-beforeEach(async () => {
-  await User.deleteMany({})
+describe('Testing adding users:', () => {
 
-  const passwordHash = await bcrypt.hash('secret', 10)
-  const user = new User({
-    username: 'root',
-    passwordHash
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('secret', 10)
+    const user = new User({
+      username: 'root',
+      passwordHash
+    })
+
+    await user.save()
   })
 
-  await user.save()
-})
-
-describe('Testing adding users:', () => {
   test('creating a new user', async () => {
     const usersAtStart = await helper.usersInDb()
 

@@ -1,5 +1,5 @@
 const blogsRouter = require('express').Router()
-const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -11,18 +11,34 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
-
-  if (!mongoose.Types.ObjectId.isValid(body.user)) {
-    return response.status(404).end()
+  const token = getTokenFrom(request)
+  if (!token) {
+    return response.status(401).json({ error: 'token missing' })
+  }
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'invalid token' })
   }
 
-  const user = await User.findById(body.user)
+  // if (!mongoose.Types.ObjectId.isValid(body.user)) {
+  //   return response.status(404).end()
+  // }
 
-  if (!user) {
-    return response.status(404).end()
-  }
+  const user = await User.findById(decodedToken.id)  // (body.user)
+
+  // if (!user) {
+  //   return response.status(404).end()
+  // }
 
   const blog = new Blog({
     title: body.title,
