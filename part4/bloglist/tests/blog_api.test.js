@@ -27,7 +27,7 @@ beforeEach(async () => {
 
   const users = await User.find({})
   const user = users[0]
-  const id = users[0]._id//.toString()
+  const id = users[0]._id
 
   const blogObject = helper.initialBlogs
     .map(blog => new Blog({
@@ -88,7 +88,6 @@ describe('Testing GET reqest(s):', () => {
   test('All blogs are containing info about creator', async () => {
     const response = await api
       .get('/api/blogs')
-    // console.log(` RESPONSE ${response.body}`)
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
@@ -115,22 +114,15 @@ describe('Testing POST request(s):', () => {
     headers = {
       'Authorization': `bearer ${loginUser.body.token}`
     }
-
-    // console.log(headers)
-    // const id = loginUser.body.id
   })
 
   test('Adding new entrie to DB', async () => {
-    // const users = await User.find({})
-    // const user = users[0]
-    // const id = users[0]._id//.toString()
 
     const newBlog = {
       title: 'Test blog entry',
       author: 'Yuri',
       url: 'localhost',
       likes: 350,
-      // user: id
     }
 
     await api
@@ -148,15 +140,11 @@ describe('Testing POST request(s):', () => {
   }, 10000)
 
   test('Adding new entrie WITOUT LIKES to DB', async () => {
-    // const users = await User.find({})
-    // // const user = users[0]
-    // const id = users[0]._id//.toString()
 
     const newBlog = {
       title: 'Test blog entry2',
       author: 'Yuri',
       url: 'localhost',
-      // user: id
     }
 
     await api
@@ -180,14 +168,10 @@ describe('Testing POST request(s):', () => {
   }, 10000)
 
   test('POST request without title and url', async () => {
-    // const users = await User.find({})
-    // // const user = users[0]
-    // const id = users[0]._id//.toString()
 
     const newBlog = {
       author: 'Yuri',
       likes: 350,
-      // user: id
     }
 
     await api
@@ -202,9 +186,6 @@ describe('Testing POST request(s):', () => {
 })
 describe('Testing POST request with wrong header:',  () => {
   test('Adding new entrie to DB with wrong headers', async () => {
-    // const users = await User.find({})
-    // const user = users[0]
-    // const id = users[0]._id//.toString()
     const headers = {
       'Authorization': 'not_a_bearer 123'
     }
@@ -214,7 +195,6 @@ describe('Testing POST request with wrong header:',  () => {
       author: 'WrongAuthor',
       url: 'localhost:2002',
       likes: 2,
-      // user: id
     }
 
     await api
@@ -277,12 +257,8 @@ describe ('Testing creator info:', () => {
     const id = users[0]._id
 
     const blogs = await helper.blogsInDb()
-    // console.log(blogs)
-    // console.log(users)
     const contents = blogs.map(response => response.user)
-    // console.log(contents)
     expect(contents).toContainEqual(id)
-    // expect(contents[0]).toContain(id)
   })
 })
 
