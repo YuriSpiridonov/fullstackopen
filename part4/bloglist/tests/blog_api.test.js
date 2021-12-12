@@ -184,6 +184,7 @@ describe('Testing POST request(s):', () => {
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 })
+
 describe('Testing POST request with wrong header:',  () => {
   test('Adding new entrie to DB with wrong headers', async () => {
     const headers = {
@@ -220,6 +221,42 @@ describe('Testing DELETE request(s):',  () => {
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204)
+
+    const blogsAfterDelete = await helper.blogsInDb()
+
+    expect(blogsAfterDelete).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const contents = blogsAfterDelete.map(r => r.title)
+
+    expect(contents).not.toContain(blogToDelete.title)
+  })
+  let headers
+
+  beforeEach(async () => {
+    const user = {
+      username: 'root',
+      password: 'password',
+    }
+
+    const loginUser = await api
+      .post('/api/login')
+      .send(user)
+
+    headers = {
+      'Authorization': `bearer ${loginUser.body.token}`
+    }
+  })
+
+  test('Loggined user deleting saved blog from DB', async () => {
+    const currentBlogsInDb = await helper.blogsInDb()
+    const blogToDelete = currentBlogsInDb[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+      .set(headers)
 
     const blogsAfterDelete = await helper.blogsInDb()
 
