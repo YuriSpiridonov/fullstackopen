@@ -7,6 +7,7 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
+// const { set } = require('../app')
 
 beforeEach(async () => {
   await User.deleteMany({})
@@ -46,41 +47,61 @@ beforeEach(async () => {
 })
 
 describe('Check ID definition:', () => {
+  let headers
 
-  // beforeEach(async () => {
-  //   const user = {
-  //     username: 'root',
-  //     password: 'password',
-  //   }
+  beforeEach(async () => {
+    const user = {
+      username: 'root',
+      password: 'password',
+    }
 
-  //   const loginUser = await api
-  //     .post('/api/login')
-  //     .send(user)
+    const loginUser = await api
+      .post('/api/login')
+      .send(user)
 
-  //   const headers = {
-  //     'Authorization': `bearer ${loginUser.body.token}`
-  //   }
-  // })
+    headers = {
+      'Authorization': `bearer ${loginUser.body.token}`
+    }
+  })
 
   test('Is ID field defined as `id` insted of `_id`', async () => {
     const response = await api
       .get('/api/blogs')
+      .set(headers)
 
     expect(response.body[0].id).toBeDefined()
   })
 })
 
 describe('Testing GET reqest(s):', () => {
+  let headers
+
+  beforeEach(async () => {
+    const user = {
+      username: 'root',
+      password: 'password',
+    }
+
+    const loginUser = await api
+      .post('/api/login')
+      .send(user)
+
+    headers = {
+      'Authorization': `bearer ${loginUser.body.token}`
+    }
+  })
   test('Blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
+      .set(headers)
   }, 10000)
 
   test('All blogs are returned', async () => {
     const response = await api
       .get('/api/blogs')
+      .set(headers)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
@@ -88,6 +109,8 @@ describe('Testing GET reqest(s):', () => {
   test('All blogs are containing info about creator', async () => {
     const response = await api
       .get('/api/blogs')
+      .set(headers)
+
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
@@ -214,24 +237,6 @@ describe('Testing POST request with wrong header:',  () => {
 })
 
 describe('Testing DELETE request(s):',  () => {
-  test('Deleting saved blog from DB', async () => {
-    const currentBlogsInDb = await helper.blogsInDb()
-    const blogToDelete = currentBlogsInDb[0]
-
-    await api
-      .delete(`/api/blogs/${blogToDelete.id}`)
-      .expect(204)
-
-    const blogsAfterDelete = await helper.blogsInDb()
-
-    expect(blogsAfterDelete).toHaveLength(
-      helper.initialBlogs.length - 1
-    )
-
-    const contents = blogsAfterDelete.map(r => r.title)
-
-    expect(contents).not.toContain(blogToDelete.title)
-  })
   let headers
 
   beforeEach(async () => {
@@ -248,6 +253,42 @@ describe('Testing DELETE request(s):',  () => {
       'Authorization': `bearer ${loginUser.body.token}`
     }
   })
+
+  test('Deleting saved blog from DB', async () => {
+    const currentBlogsInDb = await helper.blogsInDb()
+    const blogToDelete = currentBlogsInDb[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+      .set(headers)
+
+    const blogsAfterDelete = await helper.blogsInDb()
+
+    expect(blogsAfterDelete).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const contents = blogsAfterDelete.map(r => r.title)
+
+    expect(contents).not.toContain(blogToDelete.title)
+  })
+  // let headers
+
+  // beforeEach(async () => {
+  //   const user = {
+  //     username: 'root',
+  //     password: 'password',
+  //   }
+
+  //   const loginUser = await api
+  //     .post('/api/login')
+  //     .send(user)
+
+  //   headers = {
+  //     'Authorization': `bearer ${loginUser.body.token}`
+  //   }
+  // })
 
   test('Loggined user deleting saved blog from DB', async () => {
     const currentBlogsInDb = await helper.blogsInDb()
