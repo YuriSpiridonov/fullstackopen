@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const User = require('../models/user')
 const logger = require('./logger')
 
 const requestLogger = (request, response, next) => {
@@ -47,20 +48,45 @@ const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
 
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    request.token = authorization.substring(7)
+    console.log(authorization)
+    const token = authorization.substring(7) // authorization.split(' ')[1]
+    // jwt.verify(token)
+    request.token = token
+    // else {
+    //   request.token = null
+    // }
+    // request.token = token // authorization.substring(7)
+
+  } else {
+    request.token = null
   }
   next()
 }
 
-const tokenValidator = (request, response, next) => {
+// const tokenValidator = (request, response, next) => {
+//   if (!request.token) {
+//     return response.status(401).json({ error: 'token missing' })
+//   }
+
+//   const decodedToken = jwt.verify(request.token, process.env.SECRET)
+//   if (!decodedToken.id) {
+//     return response.status(401).json({ error: 'invalid token' })
+//   }
+//   next()
+// }
+
+const userExtractor = async (request, response, next) => {
   if (!request.token) {
-    return response.status(401).json({ error: 'token missing' })
+    request.user = null
+  } else {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      request.user = null
+    } else {
+      request.user = await User.findById(decodedToken.id)
+    }
   }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'invalid token' })
-  }
   next()
 }
 
@@ -69,5 +95,6 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
-  tokenValidator
+  userExtractor,
+  // tokenValidator
 }
