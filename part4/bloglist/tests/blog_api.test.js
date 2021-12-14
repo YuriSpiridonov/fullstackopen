@@ -7,7 +7,6 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
-// const { set } = require('../app')
 
 beforeEach(async () => {
   await User.deleteMany({})
@@ -47,61 +46,61 @@ beforeEach(async () => {
 })
 
 describe('Check ID definition:', () => {
-  let headers
+  // let headers
 
-  beforeEach(async () => {
-    const user = {
-      username: 'root',
-      password: 'password',
-    }
+  // beforeEach(async () => {
+  //   const user = {
+  //     username: 'root',
+  //     password: 'password',
+  //   }
 
-    const loginUser = await api
-      .post('/api/login')
-      .send(user)
+  //   const loginUser = await api
+  //     .post('/api/login')
+  //     .send(user)
 
-    headers = {
-      'Authorization': `bearer ${loginUser.body.token}`
-    }
-  })
+  //   headers = {
+  //     'Authorization': `bearer ${loginUser.body.token}`
+  //   }
+  // })
 
   test('Is ID field defined as `id` insted of `_id`', async () => {
     const response = await api
       .get('/api/blogs')
-      .set(headers)
+      // .set(headers)
 
     expect(response.body[0].id).toBeDefined()
   })
 })
 
 describe('Testing GET reqest(s):', () => {
-  let headers
+  // let headers
 
-  beforeEach(async () => {
-    const user = {
-      username: 'root',
-      password: 'password',
-    }
+  // beforeEach(async () => {
+  //   const user = {
+  //     username: 'root',
+  //     password: 'password',
+  //   }
 
-    const loginUser = await api
-      .post('/api/login')
-      .send(user)
+  //   const loginUser = await api
+  //     .post('/api/login')
+  //     .send(user)
 
-    headers = {
-      'Authorization': `bearer ${loginUser.body.token}`
-    }
-  })
+  //   headers = {
+  //     'Authorization': `bearer ${loginUser.body.token}`
+  //   }
+  // })
   test('Blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
-      .set(headers)
+      // .set(headers)
   }, 10000)
 
   test('All blogs are returned', async () => {
     const response = await api
       .get('/api/blogs')
-      .set(headers)
+      // .set(headers)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
@@ -109,7 +108,7 @@ describe('Testing GET reqest(s):', () => {
   test('All blogs are containing info about creator', async () => {
     const response = await api
       .get('/api/blogs')
-      .set(headers)
+      // .set(headers)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
@@ -210,9 +209,9 @@ describe('Testing POST request(s):', () => {
 
 describe('Testing POST request with wrong header:',  () => {
   test('Adding new entrie to DB with wrong headers', async () => {
-    const headers = {
-      'Authorization': 'not_a_bearer 123'
-    }
+    // const headers = {
+    //   'Authorization': 'not_a_bearer 123'
+    // }
 
     const newBlog = {
       title: 'Test blog entry by WrongUser',
@@ -225,7 +224,7 @@ describe('Testing POST request with wrong header:',  () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(401)
-      .set(headers)
+      // .set(headers)
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
@@ -308,6 +307,18 @@ describe('Testing DELETE request(s):',  () => {
     const contents = blogsAfterDelete.map(r => r.title)
 
     expect(contents).not.toContain(blogToDelete.title)
+  })
+
+  test('Deleting nonexisting blog', async () => {
+    const nonExistId = await helper.nonExistingId()
+    // const currentLength = helper.blogsInDb()
+    await api
+      .delete(`/api/blogs/${nonExistId}`)
+      .expect(204)
+      .set(headers)
+    // console.log(`await helper.blogsInDb ${await helper.blogsInDb}`)
+    // console.log(`currentLength ${currentLength}`)
+    // expect(await helper.blogsInDb).to.be.equal(currentLength)
   })
 })
 
