@@ -40,7 +40,6 @@ const errorHandler = (error, request, response, next) => {
         error: 'invalid token'
       })
   }
-
   next(error)
 }
 
@@ -48,32 +47,14 @@ const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
 
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    console.log(authorization)
-    const token = authorization.substring(7) // authorization.split(' ')[1]
-    // jwt.verify(token)
-    request.token = token
-    // else {
-    //   request.token = null
-    // }
-    // request.token = token // authorization.substring(7)
+    const token = authorization.substring(7)
 
+    request.token = token
   } else {
     request.token = null
   }
   next()
 }
-
-// const tokenValidator = (request, response, next) => {
-//   if (!request.token) {
-//     return response.status(401).json({ error: 'token missing' })
-//   }
-
-//   const decodedToken = jwt.verify(request.token, process.env.SECRET)
-//   if (!decodedToken.id) {
-//     return response.status(401).json({ error: 'invalid token' })
-//   }
-//   next()
-// }
 
 const userExtractor = async (request, response, next) => {
   if (!request.token) {
@@ -86,7 +67,6 @@ const userExtractor = async (request, response, next) => {
       request.user = await User.findById(decodedToken.id)
     }
   }
-
   next()
 }
 
@@ -95,6 +75,5 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
-  userExtractor,
-  // tokenValidator
+  userExtractor
 }
