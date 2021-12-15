@@ -46,76 +46,36 @@ beforeEach(async () => {
 })
 
 describe('Check ID definition:', () => {
-  // let headers
-
-  // beforeEach(async () => {
-  //   const user = {
-  //     username: 'root',
-  //     password: 'password',
-  //   }
-
-  //   const loginUser = await api
-  //     .post('/api/login')
-  //     .send(user)
-
-  //   headers = {
-  //     'Authorization': `bearer ${loginUser.body.token}`
-  //   }
-  // })
-
   test('Is ID field defined as `id` insted of `_id`', async () => {
     const response = await api
       .get('/api/blogs')
-      // .set(headers)
-
     expect(response.body[0].id).toBeDefined()
   })
 })
 
 describe('Testing GET reqest(s):', () => {
-  // let headers
-
-  // beforeEach(async () => {
-  //   const user = {
-  //     username: 'root',
-  //     password: 'password',
-  //   }
-
-  //   const loginUser = await api
-  //     .post('/api/login')
-  //     .send(user)
-
-  //   headers = {
-  //     'Authorization': `bearer ${loginUser.body.token}`
-  //   }
-  // })
   test('Blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
-      // .set(headers)
   }, 10000)
 
   test('All blogs are returned', async () => {
     const response = await api
       .get('/api/blogs')
-      // .set(headers)
-
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
   test('All blogs are containing info about creator', async () => {
     const response = await api
       .get('/api/blogs')
-      // .set(headers)
-
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
   test('Check if a blog posts without likes (zero likes) are exist', async () => {
     const blogs = await helper.blogsInDb()
-    const likes = blogs.map(r => r.likes)
+    const likes = blogs.map(response => response.likes)
     expect(likes).toContain(0)
   })
 })
@@ -157,8 +117,24 @@ describe('Testing POST request(s):', () => {
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const contents = blogsAtEnd.map(r => r.title)
+    const contents = blogsAtEnd.map(response => response.title)
     expect(contents).toContain('Test blog entry')
+  }, 10000)
+
+  test('Adding new entrie to DB without auth token', async () => {
+
+    const newBlog = {
+      title: 'Test blog entry without token',
+      author: 'Yuri',
+      url: 'localhost',
+      likes: 340,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+
   }, 10000)
 
   test('Adding new entrie WITOUT LIKES to DB', async () => {
@@ -179,11 +155,11 @@ describe('Testing POST request(s):', () => {
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const contents = blogsAtEnd.map(r => r.likes)
+    const contents = blogsAtEnd.map(response => response.likes)
 
     expect(
       contents.reduce(
-        (c, n) => (n === 0 ? c + 1: c), 0
+        (count, num) => (num === 0 ? count + 1: count), 0
       )
     ).toBe(2)
 
@@ -209,10 +185,6 @@ describe('Testing POST request(s):', () => {
 
 describe('Testing POST request with wrong header:',  () => {
   test('Adding new entrie to DB with wrong headers', async () => {
-    // const headers = {
-    //   'Authorization': 'not_a_bearer 123'
-    // }
-
     const newBlog = {
       title: 'Test blog entry by WrongUser',
       author: 'WrongAuthor',
@@ -224,13 +196,12 @@ describe('Testing POST request with wrong header:',  () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(401)
-      // .set(headers)
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 
-    const contents = blogsAtEnd.map(r => r.title)
+    const contents = blogsAtEnd.map(response => response.title)
     expect(contents).not.toContain('Test blog entry by WrongUser')
   }, 10000)
 })
@@ -268,26 +239,10 @@ describe('Testing DELETE request(s):',  () => {
       helper.initialBlogs.length - 1
     )
 
-    const contents = blogsAfterDelete.map(r => r.title)
+    const contents = blogsAfterDelete.map(response => response.title)
 
     expect(contents).not.toContain(blogToDelete.title)
   })
-  // let headers
-
-  // beforeEach(async () => {
-  //   const user = {
-  //     username: 'root',
-  //     password: 'password',
-  //   }
-
-  //   const loginUser = await api
-  //     .post('/api/login')
-  //     .send(user)
-
-  //   headers = {
-  //     'Authorization': `bearer ${loginUser.body.token}`
-  //   }
-  // })
 
   test('Loggined user deleting saved blog from DB', async () => {
     const currentBlogsInDb = await helper.blogsInDb()
@@ -304,21 +259,17 @@ describe('Testing DELETE request(s):',  () => {
       helper.initialBlogs.length - 1
     )
 
-    const contents = blogsAfterDelete.map(r => r.title)
+    const contents = blogsAfterDelete.map(response => response.title)
 
     expect(contents).not.toContain(blogToDelete.title)
   })
 
   test('Deleting nonexisting blog', async () => {
     const nonExistId = await helper.nonExistingId()
-    // const currentLength = helper.blogsInDb()
     await api
       .delete(`/api/blogs/${nonExistId}`)
       .expect(204)
       .set(headers)
-    // console.log(`await helper.blogsInDb ${await helper.blogsInDb}`)
-    // console.log(`currentLength ${currentLength}`)
-    // expect(await helper.blogsInDb).to.be.equal(currentLength)
   })
 })
 
@@ -334,7 +285,7 @@ describe('Testing PUT request(s):', () => {
       .expect(200)
 
     const blogsAfterUpdate = await helper.blogsInDb()
-    const contents = blogsAfterUpdate.map(r => r.likes)
+    const contents = blogsAfterUpdate.map(response => response.likes)
 
     expect(contents).toContain(666)
   }, 10000)
