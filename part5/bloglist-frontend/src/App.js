@@ -9,8 +9,8 @@ const App = () => {
   const [newBlog, setNewBlog] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [likes, setLikes] = useState(0)
-  const [errorMessage, setErrorMessage] = useState(null)
+  // const [likes, setLikes] = useState(0)
+  const [notification, setNotification] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -39,7 +39,21 @@ const App = () => {
       author: author,
       url: url,
       user: user.name,
-      likes: likes
+      likes: 0
+    }
+
+    if (!blogObject.title || !blogObject.author || !blogObject.url) {
+      setNewBlog('')
+      setAuthor('')
+      setUrl('')
+      setNotification({
+        text: `You are missing one of the following: Blog title, blog author or link for the website.`,
+        type: 'error'
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+      return null
     }
 
     blogService
@@ -49,7 +63,30 @@ const App = () => {
         setNewBlog('')
         setAuthor('')
         setUrl('')
+        setNotification({
+          text: `${blogObject.title} by ${blogObject.author} added`,
+          type: 'notification'
+        })
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       })
+      // .catch(error => {
+      //   setErrorMessage(
+      //     `Error`
+      //   )
+      //   setTimeout(() => {
+      //     setErrorMessage(null)
+      //   }, 5000)
+      // })
+    
+    //   setNotification({
+    //   text: `${blogObject.title} by ${blogObject.author} added`,
+    //   type: 'notification'
+    // })
+    // setTimeout(() => {
+    //   setNotification(null)
+    // }, 5000)
   }
 
   // const handleBlogChange = (event) => {
@@ -83,10 +120,15 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
-      setErrorMessage('wrong credentials')
+      setNotification({
+        text: 'wrong credentials',
+        type: 'error',
+      })
+      // setErrorMessage('wrong credentials')
       console.log(exception)
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotification(null)
+        // setErrorMessage(null)
       }, 5000)
     }
   }
@@ -174,14 +216,17 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      {/* <Notification message={errorMessage} /> */}
+      {/* <Notification message={notification} /> */}
       {user === null ?
         <div>
           <h1>log in to application</h1>
+          <Notification message={notification} />
           {loginForm()}
         </div> :
         <div>
           <h1>blogs</h1>
+          <Notification message={notification} />
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
           {postForm()}
           {blogForm()}
