@@ -71,22 +71,6 @@ const App = () => {
           setNotification(null)
         }, 5000)
       })
-      // .catch(error => {
-      //   setErrorMessage(
-      //     `Error`
-      //   )
-      //   setTimeout(() => {
-      //     setErrorMessage(null)
-      //   }, 5000)
-      // })
-    
-    //   setNotification({
-    //   text: `${blogObject.title} by ${blogObject.author} added`,
-    //   type: 'notification'
-    // })
-    // setTimeout(() => {
-    //   setNotification(null)
-    // }, 5000)
   }
 
   // const handleBlogChange = (event) => {
@@ -124,11 +108,9 @@ const App = () => {
         text: 'wrong credentials',
         type: 'error',
       })
-      // setErrorMessage('wrong credentials')
       console.log(exception)
       setTimeout(() => {
         setNotification(null)
-        // setErrorMessage(null)
       }, 5000)
     }
   }
@@ -216,8 +198,6 @@ const App = () => {
 
   return (
     <div>
-      {/* <Notification message={errorMessage} /> */}
-      {/* <Notification message={notification} /> */}
       {user === null ?
         <div>
           <h1>log in to application</h1>
