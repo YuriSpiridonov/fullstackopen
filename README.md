@@ -38,5 +38,5 @@ This part is focused on testing _Node.js_ applications, async/await, user admini
 - [bloglist](/part4/bloglist) - Allows users to save information (blog author, title, url, and amount of upvotes from users) about interesting blogs they have stumbled across on the internet.
 
 ### Part 5 - [Testing React apps](https://fullstackopen.com/en/part5)
-This part is focused on token based authentication and testing the _React_ components using `Jest`, `React Testing Library` and `Cypress`.
+This part is focused on token based authentication and testing the _React_ components using _Jest_, _React Testing Library_ and _Cypress_.
 - [bloglist-frontend](/part5/bloglist-frontend) - The app frontend code.
