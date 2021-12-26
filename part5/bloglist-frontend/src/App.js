@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+// import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import PostForm from './components/PostForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
+  const [loginVisible, setLoginVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState('')
+  // const [title, setTitle]= useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   // const [likes, setLikes] = useState(0)
@@ -120,7 +124,30 @@ const App = () => {
     setUser(null)
   }
 
-  const loginForm = () => (
+  const loginForm = () => 
+  // {
+  //   const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+  //   const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
+  //   return (
+  //     <div>
+  //       <div style={hideWhenVisible}>
+  //         <dutton onClick={() => setLoginVisible(true)}>log in</dutton>
+  //       </div>
+  //       <div style={showWhenVisible}>
+  //         <LoginForm
+  //           username={username}
+  //           password={password}
+  //           handleUsernameChange={({ target }) => setUsername(target.value)}
+  //           handlePasswordChange={({ target }) => setPassword(target.value)}
+  //           handleSubmit={handleLogin}
+  //         />
+  //         <button onClick={() => setLoginVisible(false)}>cancel</button>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+  (
     <form onSubmit={handleLogin}>
       <div>
         username
@@ -154,9 +181,27 @@ const App = () => {
   )
 
   const postForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+
     return (
       <div>
-        <form onSubmit={addBlog}>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>create new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <PostForm
+            title={newBlog}
+            author={author}
+            url={url}
+            handleTitleChange={({ target }) => setNewBlog(target.value)}
+            handleAuthorChange={({ target }) => setAuthor(target.value)}
+            handleUrlChange={({ target }) => setUrl(target.value)}
+            handleSubmit={addBlog}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
+        {/* <form onSubmit={addBlog}>
           <label> 
             <p>
               Title:
@@ -191,7 +236,7 @@ const App = () => {
             </p>
           </label>
           <button type='submit'>create</button>
-        </form>
+        </form> */}
       </div>
     )
   }
