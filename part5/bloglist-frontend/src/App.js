@@ -3,11 +3,13 @@ import Blog from './components/Blog'
 // import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import PostForm from './components/PostForm'
+import Togglable from './components/Togglable'
+
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
-  const [loginVisible, setLoginVisible] = useState(false)
+  // const [loginVisible, setLoginVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState('')
   // const [title, setTitle]= useState('')
@@ -180,66 +182,78 @@ const App = () => {
     </div>    
   )
 
-  const postForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+  const postForm = () => (// {
+    <Togglable buttonLable='create new blog'>
+      <PostForm
+        title={newBlog}
+        author={author}
+        url={url}
+        handleTitleChange={({ target }) => setNewBlog(target.value)}
+        handleAuthorChange={({ target }) => setAuthor(target.value)}
+        handleUrlChange={({ target }) => setUrl(target.value)}
+        handleSubmit={addBlog}
+      />
+    </Togglable>
+  )
+    // const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    // const showWhenVisible = { display: loginVisible ? '' : 'none' }
 
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>create new blog</button>
-        </div>
-        <div style={showWhenVisible}>
-          <PostForm
-            title={newBlog}
-            author={author}
-            url={url}
-            handleTitleChange={({ target }) => setNewBlog(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
-            handleSubmit={addBlog}
-          />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-        {/* <form onSubmit={addBlog}>
-          <label> 
-            <p>
-              Title:
-              <input
-                type='text'
-                value={newBlog}
-                name='Title:'
-                onChange={({ target }) => setNewBlog(target.value)} // {handleBlogChange}
-              />
-            </p>
-          </label>
-          <label> 
-            <p>
-              Author:
-              <input
-                type='text'
-                value={author}
-                name="Author:"
-                onChange={({ target }) => setAuthor(target.value)} // {handleAuthorChange}
-              />
-            </p>
-          </label>
-          <label>
-            <p>
-              Url:
-              <input
-                type='text'
-                value={url}
-                name="Url:"
-                onChange={({ target }) => setUrl(target.value)} // {handleUrlChange}
-              />
-            </p>
-          </label>
-          <button type='submit'>create</button>
-        </form> */}
-      </div>
-    )
-  }
+    // return (
+    //   <div>
+    //     <div style={hideWhenVisible}>
+    //       <button onClick={() => setLoginVisible(true)}>create new blog</button>
+    //     </div>
+    //     <div style={showWhenVisible}>
+    //       <PostForm
+    //         title={newBlog}
+    //         author={author}
+    //         url={url}
+    //         handleTitleChange={({ target }) => setNewBlog(target.value)}
+    //         handleAuthorChange={({ target }) => setAuthor(target.value)}
+    //         handleUrlChange={({ target }) => setUrl(target.value)}
+    //         handleSubmit={addBlog}
+    //       />
+    //       <button onClick={() => setLoginVisible(false)}>cancel</button>
+    //     </div>
+        // {/* <form onSubmit={addBlog}>
+        //   <label> 
+        //     <p>
+        //       Title:
+        //       <input
+        //         type='text'
+        //         value={newBlog}
+        //         name='Title:'
+        //         onChange={({ target }) => setNewBlog(target.value)} // {handleBlogChange}
+        //       />
+        //     </p>
+        //   </label>
+        //   <label> 
+        //     <p>
+        //       Author:
+        //       <input
+        //         type='text'
+        //         value={author}
+        //         name="Author:"
+        //         onChange={({ target }) => setAuthor(target.value)} // {handleAuthorChange}
+        //       />
+        //     </p>
+        //   </label>
+        //   <label>
+        //     <p>
+        //       Url:
+        //       <input
+        //         type='text'
+        //         value={url}
+        //         name="Url:"
+        //         onChange={({ target }) => setUrl(target.value)} // {handleUrlChange}
+        //       />
+        //     </p>
+        //   </label>
+        //   <button type='submit'>create</button>
+        // </form> */}
+  //     </div>
+  //   )
+  // }
 
   return (
     <div>
