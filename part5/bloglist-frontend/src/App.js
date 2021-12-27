@@ -79,6 +79,21 @@ const App = () => {
       })
   }
 
+  const handleLike = async blog => {
+    // blog.preventDefault()
+    console.log(blog)
+    const likedBlog = await blogService.like(blog)
+    console.log(likedBlog.likes)
+    setBlogs(
+      blogs.map(blog => 
+        blog.id === likedBlog.id
+        ? { ...blog, likes: likedBlog.likes }
+        : blog
+      )
+    )
+    console.log(likedBlog.likes)
+  }
+
   // const handleBlogChange = (event) => {
   //   console.log(event.target.value)
   //   setNewBlog(event.target.value)
@@ -177,7 +192,11 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog 
+          key={blog.id} 
+          blog={blog} 
+          handleLike={() => handleLike(blog)}
+        />
       )}
     </div>    
   )
