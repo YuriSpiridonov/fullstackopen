@@ -76,7 +76,7 @@ const App = () => {
       })
   }
 
-  const handleLike = async blog => {
+  const handleLike = async (blog) => {
     const likedBlog = await blogService.like(blog)
     setBlogs(
       blogs.map(blog => 
@@ -85,6 +85,15 @@ const App = () => {
         : blog
       )
     )
+  }
+
+  const handleBlogDelete = async (blog) => {
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+      await blogService.deleteBlog(blog)
+      setBlogs(
+        blogs.filter(currnetBlog => currnetBlog.id !== blog.id)
+      )
+    }
   }
 
   const handleLogin = async (event) => {
@@ -128,75 +137,17 @@ const App = () => {
       handleSubmit={handleLogin}
     />
   )
-  // {
-  //   const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-  //   const showWhenVisible = { display: loginVisible ? '' : 'none' }
-
-  //   return (
-  //     <div>
-  //       <div style={hideWhenVisible}>
-  //         <dutton onClick={() => setLoginVisible(true)}>log in</dutton>
-  //       </div>
-  //       <div style={showWhenVisible}>
-  //         <LoginForm
-  //           username={username}
-  //           password={password}
-  //           handleUsernameChange={({ target }) => setUsername(target.value)}
-  //           handlePasswordChange={({ target }) => setPassword(target.value)}
-  //           handleSubmit={handleLogin}
-  //         />
-  //         <button onClick={() => setLoginVisible(false)}>cancel</button>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-  // (
-  //   <form onSubmit={handleLogin}>
-  //     <div>
-  //       username
-  //         <input
-  //         type='text'
-  //         value={username}
-  //         name='Username'
-  //         onChange={({ target }) => setUsername(target.value)}
-  //       />
-  //     </div>
-  //     <div>
-  //       password
-  //         <input
-  //         type='password'
-  //         value={password}
-  //         name='Password'
-  //         onChange={({ target }) => setPassword(target.value)}
-  //       />
-  //     </div>
-  //     <button type="submit">login</button>
-  //   </form>      
-  // )
 
   const blogForm = () => (
     <BlogList
       blogs={blogs.sort((a, b) => b.likes - a.likes)}
       handleLike={handleLike}
-    />
-    // <div>
-    //   <h2>blogs</h2>
-    //   <button onClick={() => blgs = blgs.sort((a, b) => b.likes - a.likes)}>sort</button>
-    //   {blgs.map(blog =>
-    //     <Blog 
-    //       key={blog.id} 
-    //       blog={blog} 
-    //       handleLike={() => handleLike(blog)}
-    //     />
-    //   )}
-
-    //   {/* if ({sorted}) {
-    //     blogs.sort((a, b) => b.likes - a.likes) 
-    //   }  */}
-    // </div>    
+      handleBlogDelete={handleBlogDelete}
+      loggedUser={user.username}
+    />   
   )
 
-  const postForm = () => (// {
+  const postForm = () => (
     <Togglable buttonLable='create new blog'>
       <PostForm
         title={newBlog}
@@ -209,65 +160,6 @@ const App = () => {
       />
     </Togglable>
   )
-    // const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    // const showWhenVisible = { display: loginVisible ? '' : 'none' }
-
-    // return (
-    //   <div>
-    //     <div style={hideWhenVisible}>
-    //       <button onClick={() => setLoginVisible(true)}>create new blog</button>
-    //     </div>
-    //     <div style={showWhenVisible}>
-    //       <PostForm
-    //         title={newBlog}
-    //         author={author}
-    //         url={url}
-    //         handleTitleChange={({ target }) => setNewBlog(target.value)}
-    //         handleAuthorChange={({ target }) => setAuthor(target.value)}
-    //         handleUrlChange={({ target }) => setUrl(target.value)}
-    //         handleSubmit={handleNewBlog}
-    //       />
-    //       <button onClick={() => setLoginVisible(false)}>cancel</button>
-    //     </div>
-        // {/* <form onSubmit={handleNewBlog}>
-        //   <label> 
-        //     <p>
-        //       Title:
-        //       <input
-        //         type='text'
-        //         value={newBlog}
-        //         name='Title:'
-        //         onChange={({ target }) => setNewBlog(target.value)} // {handleBlogChange}
-        //       />
-        //     </p>
-        //   </label>
-        //   <label> 
-        //     <p>
-        //       Author:
-        //       <input
-        //         type='text'
-        //         value={author}
-        //         name="Author:"
-        //         onChange={({ target }) => setAuthor(target.value)} // {handleAuthorChange}
-        //       />
-        //     </p>
-        //   </label>
-        //   <label>
-        //     <p>
-        //       Url:
-        //       <input
-        //         type='text'
-        //         value={url}
-        //         name="Url:"
-        //         onChange={({ target }) => setUrl(target.value)} // {handleUrlChange}
-        //       />
-        //     </p>
-        //   </label>
-        //   <button type='submit'>create</button>
-        // </form> */}
-  //     </div>
-  //   )
-  // }
 
   return (
     <div>
