@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-// import LoginForm from './components/LoginForm'
+import LoginForm from './components/LoginForm'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import PostForm from './components/PostForm'
 import Togglable from './components/Togglable'
@@ -9,13 +9,10 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
-  // const [loginVisible, setLoginVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState('')
-  // const [title, setTitle]= useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  // const [likes, setLikes] = useState(0)
   const [notification, setNotification] = useState(null)
 
   const [username, setUsername] = useState('')
@@ -38,7 +35,7 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (event) => {
+  const handleNewBlog = (event) => {
     event.preventDefault()
     const blogObject = {
       title: newBlog,
@@ -80,10 +77,7 @@ const App = () => {
   }
 
   const handleLike = async blog => {
-    // blog.preventDefault()
-    console.log(blog)
     const likedBlog = await blogService.like(blog)
-    console.log(likedBlog.likes)
     setBlogs(
       blogs.map(blog => 
         blog.id === likedBlog.id
@@ -91,23 +85,7 @@ const App = () => {
         : blog
       )
     )
-    console.log(likedBlog.likes)
   }
-
-  // const handleBlogChange = (event) => {
-  //   console.log(event.target.value)
-  //   setNewBlog(event.target.value)
-  // }
-
-  // const handleAuthorChange = (event) => {
-  //   console.log(event.target.value)
-  //   setAuthor(event.target.value)
-  // }
-
-  // const handleUrlChange = (event) => {
-  //   console.log(event.target.value)
-  //   setUrl(event.target.value)
-  // }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -141,7 +119,15 @@ const App = () => {
     setUser(null)
   }
 
-  const loginForm = () => 
+  const loginForm = () => (
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
+  )
   // {
   //   const hideWhenVisible = { display: loginVisible ? 'none' : '' }
   //   const showWhenVisible = { display: loginVisible ? '' : 'none' }
@@ -164,41 +150,50 @@ const App = () => {
   //     </div>
   //   )
   // }
-  (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-          <input
-          type='text'
-          value={username}
-          name='Username'
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-          <input
-          type='password'
-          value={password}
-          name='Password'
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>      
-  )
+  // (
+  //   <form onSubmit={handleLogin}>
+  //     <div>
+  //       username
+  //         <input
+  //         type='text'
+  //         value={username}
+  //         name='Username'
+  //         onChange={({ target }) => setUsername(target.value)}
+  //       />
+  //     </div>
+  //     <div>
+  //       password
+  //         <input
+  //         type='password'
+  //         value={password}
+  //         name='Password'
+  //         onChange={({ target }) => setPassword(target.value)}
+  //       />
+  //     </div>
+  //     <button type="submit">login</button>
+  //   </form>      
+  // )
 
   const blogForm = () => (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
-          handleLike={() => handleLike(blog)}
-        />
-      )}
-    </div>    
+    <BlogList
+      blogs={blogs.sort((a, b) => b.likes - a.likes)}
+      handleLike={handleLike}
+    />
+    // <div>
+    //   <h2>blogs</h2>
+    //   <button onClick={() => blgs = blgs.sort((a, b) => b.likes - a.likes)}>sort</button>
+    //   {blgs.map(blog =>
+    //     <Blog 
+    //       key={blog.id} 
+    //       blog={blog} 
+    //       handleLike={() => handleLike(blog)}
+    //     />
+    //   )}
+
+    //   {/* if ({sorted}) {
+    //     blogs.sort((a, b) => b.likes - a.likes) 
+    //   }  */}
+    // </div>    
   )
 
   const postForm = () => (// {
@@ -210,7 +205,7 @@ const App = () => {
         handleTitleChange={({ target }) => setNewBlog(target.value)}
         handleAuthorChange={({ target }) => setAuthor(target.value)}
         handleUrlChange={({ target }) => setUrl(target.value)}
-        handleSubmit={addBlog}
+        handleSubmit={handleNewBlog}
       />
     </Togglable>
   )
@@ -230,11 +225,11 @@ const App = () => {
     //         handleTitleChange={({ target }) => setNewBlog(target.value)}
     //         handleAuthorChange={({ target }) => setAuthor(target.value)}
     //         handleUrlChange={({ target }) => setUrl(target.value)}
-    //         handleSubmit={addBlog}
+    //         handleSubmit={handleNewBlog}
     //       />
     //       <button onClick={() => setLoginVisible(false)}>cancel</button>
     //     </div>
-        // {/* <form onSubmit={addBlog}>
+        // {/* <form onSubmit={handleNewBlog}>
         //   <label> 
         //     <p>
         //       Title:

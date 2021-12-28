@@ -21,7 +21,6 @@ const create = async newObject => {
 }
 
 const like = async blog => {
-  // console.log(blog.id)
   const config = {
     headers: { Authorization: token }
   }
