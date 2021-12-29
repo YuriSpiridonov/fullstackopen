@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
@@ -19,6 +19,8 @@ const App = () => {
   const [password, setPassword] = useState('')
 
   const [user, setUser] = useState(null)
+
+  const postFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -148,7 +150,7 @@ const App = () => {
   )
 
   const postForm = () => (
-    <Togglable buttonLable='create new blog'>
+    <Togglable buttonLabel='create new blog' ref={postFormRef}>
       <PostForm
         title={newBlog}
         author={author}
