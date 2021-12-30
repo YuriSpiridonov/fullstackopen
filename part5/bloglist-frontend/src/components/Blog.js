@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ 
-  blog, 
-  handleLike, 
-  handleBlogDelete, 
-  loggedUser 
+const Blog = ({
+  blog,
+  handleLike,
+  handleBlogDelete,
+  loggedUser
 }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -17,7 +17,7 @@ const Blog = ({
 
   const [isVisible, setVisible] = useState(false)
 
-  const deleteButton = () => {   
+  const deleteButton = () => {
     if (blog.user.username === loggedUser) {
       return (
         <button onClick={() => handleBlogDelete()}>delete</button>
@@ -32,7 +32,7 @@ const Blog = ({
           {blog.title} {blog.author}
           <button onClick={() => setVisible(true)}>view</button>
         </div>
-      </div> 
+      </div>
     )
   }
 
@@ -54,12 +54,12 @@ const Blog = ({
         {deleteButton()}
       </div>
     </div>
-)}
+  )}
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired, 
-  handleLike: PropTypes.func.isRequired, 
-  handleBlogDelete: PropTypes.func.isRequired, 
+  blog: PropTypes.object.isRequired,
+  handleLike: PropTypes.func.isRequired,
+  handleBlogDelete: PropTypes.func.isRequired,
   loggedUser: PropTypes.string.isRequired
 }
 
