@@ -13,7 +13,7 @@ const PostForm = ({
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label> 
+        <label>
           <p>
             Title:
             <input
@@ -24,7 +24,7 @@ const PostForm = ({
             />
           </p>
         </label>
-        <label> 
+        <label>
           <p>
             Author:
             <input

@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const App = () => {
       setAuthor('')
       setUrl('')
       setNotification({
-        text: `You are missing one of the following: Blog title, blog author or link for the website.`,
+        text: 'You are missing one of the following: Blog title, blog author or link for the website.',
         type: 'error'
       })
       setTimeout(() => {
@@ -81,10 +81,10 @@ const App = () => {
   const handleLike = async (blog) => {
     const likedBlog = await blogService.like(blog)
     setBlogs(
-      blogs.map(blog => 
+      blogs.map(blog =>
         blog.id === likedBlog.id
-        ? { ...blog, likes: likedBlog.likes }
-        : blog
+          ? { ...blog, likes: likedBlog.likes }
+          : blog
       )
     )
   }
@@ -146,7 +146,7 @@ const App = () => {
       handleLike={handleLike}
       handleBlogDelete={handleBlogDelete}
       loggedUser={user.username}
-    />   
+    />
   )
 
   const postForm = () => (
