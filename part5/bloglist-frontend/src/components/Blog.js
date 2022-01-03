@@ -27,7 +27,7 @@ const Blog = ({
 
   if (!isVisible) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='shortBlogInfo'>
         <div>
           {blog.title} {blog.author}
           <button onClick={() => setVisible(true)}>view</button>
