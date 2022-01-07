@@ -10,9 +10,9 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  // const [newBlog, setNewBlog] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [url, setUrl] = useState('')
   const [notification, setNotification] = useState(null)
 
   const [username, setUsername] = useState('')
@@ -20,7 +20,7 @@ const App = () => {
 
   const [user, setUser] = useState(null)
 
-  const postFormRef = useRef()
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -37,20 +37,51 @@ const App = () => {
     }
   }, [])
 
-  const handleNewBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: newBlog,
-      author: author,
-      url: url,
-      user: user.name,
-      likes: 0
-    }
+  // const handleNewBlog = (event) => {
+  //   blogFormRef.current.toggleVisibility()
+  //   event.preventDefault()
+  //   const blogObject = {
+  //     title: newBlog,
+  //     author: author,
+  //     url: url,
+  //     user: user.name,
+  //     likes: 0
+  //   }
 
-    if (!blogObject.title || !blogObject.author || !blogObject.url) {
-      setNewBlog('')
-      setAuthor('')
-      setUrl('')
+  //   if (!blogObject.title || !blogObject.author || !blogObject.url) {
+  //     setNewBlog('')
+  //     setAuthor('')
+  //     setUrl('')
+  //     setNotification({
+  //       text: 'You are missing one of the following: Blog title, blog author or link for the website.',
+  //       type: 'error'
+  //     })
+  //     setTimeout(() => {
+  //       setNotification(null)
+  //     }, 5000)
+  //     return null
+  //   }
+
+  //   blogService
+  //     .create(blogObject)
+  //     .then(returnedBlog => {
+  //       setBlogs(blogs.concat(returnedBlog))
+  //       setNewBlog('')
+  //       setAuthor('')
+  //       setUrl('')
+  //       setNotification({
+  //         text: `${blogObject.title} by ${blogObject.author} added`,
+  //         type: 'notification'
+  //       })
+  //       setTimeout(() => {
+  //         setNotification(null)
+  //       }, 5000)
+  //     })
+  // }
+
+  const handleNewBlog = async (newBlog) => {
+    blogFormRef.current.toggleVisibility()
+    if (!newBlog.title || !newBlog.author || !newBlog.url) {
       setNotification({
         text: 'You are missing one of the following: Blog title, blog author or link for the website.',
         type: 'error'
@@ -61,22 +92,73 @@ const App = () => {
       return null
     }
 
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewBlog('')
-        setAuthor('')
-        setUrl('')
-        setNotification({
-          text: `${blogObject.title} by ${blogObject.author} added`,
-          type: 'notification'
-        })
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
-      })
+    const createdBlog = await blogService
+      .create(newBlog)
+    setBlogs(blogs.concat(createdBlog))
+    setNotification({
+      text: `${newBlog.title} by ${newBlog.author} added`,
+      type: 'notification'
+    })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
+
+  //   blogFormRef.current.toggleVisibility()
+  //   event.preventDefault()
+  //   const blogObject = {
+  //     title: newBlog,
+  //     author: author,
+  //     url: url,
+  //     user: user.name,
+  //     likes: 0
+  //   }
+
+  //   if (!blogObject.title || !blogObject.author || !blogObject.url) {
+  //     setNewBlog('')
+  //     setAuthor('')
+  //     setUrl('')
+  //     setNotification({
+  //       text: 'You are missing one of the following: Blog title, blog author or link for the website.',
+  //       type: 'error'
+  //     })
+  //     setTimeout(() => {
+  //       setNotification(null)
+  //     }, 5000)
+  //     return null
+  //   }
+
+  //   blogService
+  //     .create(blogObject)
+  //     .then(returnedBlog => {
+  //       setBlogs(blogs.concat(returnedBlog))
+  //       setNewBlog('')
+  //       setAuthor('')
+  //       setUrl('')
+  //       setNotification({
+  //         text: `${blogObject.title} by ${blogObject.author} added`,
+  //         type: 'notification'
+  //       })
+  //       setTimeout(() => {
+  //         setNotification(null)
+  //       }, 5000)
+  //     })
+  // }
+
+  // const handleNewBlog = async (title, author, url) => {
+  //   blogFormRef.current.toggleVisibility()
+  //   const blog = await blogService.create(title, author, url)
+  //   // setBlogs([...blogs, blog])
+  //   setBlogs(blogs.concat(blog))
+  //   setNotification({
+  //     text: `${title} by ${author} added`,
+  //     type: 'notification'
+  //   })
+  //   setTimeout(() => {
+  //     setNotification(null)
+  //   }, 5000)
+
+  // }
 
   const handleLike = async (blog) => {
     const likedBlog = await blogService.like(blog)
@@ -150,15 +232,15 @@ const App = () => {
   )
 
   const postForm = () => (
-    <Togglable buttonLabel='create new blog' ref={postFormRef}>
+    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
       <PostForm
-        title={newBlog}
-        author={author}
-        url={url}
-        handleTitleChange={({ target }) => setNewBlog(target.value)}
-        handleAuthorChange={({ target }) => setAuthor(target.value)}
-        handleUrlChange={({ target }) => setUrl(target.value)}
-        handleSubmit={handleNewBlog}
+        // title={newBlog}
+        // author={author}
+        // url={url}
+        // handleTitleChange={({ target }) => setNewBlog(target.value)}
+        // handleAuthorChange={({ target }) => setAuthor(target.value)}
+        // handleUrlChange={({ target }) => setUrl(target.value)}
+        handleNewBlog={handleNewBlog}
       />
     </Togglable>
   )

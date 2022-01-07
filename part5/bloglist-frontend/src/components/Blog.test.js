@@ -8,7 +8,6 @@ test('Blog renders the blog\'s title and author, but does not render its url or 
     title: 'Blog title',
     author: 'Blog Author',
     url: 'google.com',
-    user: 'Gus',
     likes: 3
   }
   const loggedUser = ''
@@ -32,9 +31,6 @@ test('Blog renders the blog\'s title and author, but does not render its url or 
   )
   expect(component.container).not.toHaveTextContent(
     'google.com'
-  )
-  expect(component.container).not.toHaveTextContent(
-    'Gus'
   )
   expect(component.container).not.toHaveTextContent(
     3
