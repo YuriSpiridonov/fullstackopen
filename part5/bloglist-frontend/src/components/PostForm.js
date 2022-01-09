@@ -27,20 +27,6 @@ const PostForm = ({ handleNewBlog }) => {
     setTitle('')
     setAuthor('')
     setUrl('')
-
-    // if (!blogObject.title || !blogObject.author || !blogObject.url) {
-    //   setTitle('')
-    //   setAuthor('')
-    //   setUrl('')
-    //   setNotification({
-    //     text: 'You are missing one of the following: Blog title, blog author or link for the website.',
-    //     type: 'error'
-    //   })
-    //   setTimeout(() => {
-    //     setNotification(null)
-    //   }, 5000)
-    //   return null
-    // }
   }
 
   return (
@@ -90,13 +76,6 @@ const PostForm = ({ handleNewBlog }) => {
 
 PostForm.propTypes = {
   handleNewBlog: PropTypes.func.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
-  // handleTitleChange: PropTypes.func.isRequired,
-  // handleAuthorChange: PropTypes.func.isRequired,
-  // handleUrlChange: PropTypes.func.isRequired,
-  // title: PropTypes.string.isRequired,
-  // author: PropTypes.string.isRequired,
-  // url: PropTypes.string.isRequired
 }
 
 export default PostForm
