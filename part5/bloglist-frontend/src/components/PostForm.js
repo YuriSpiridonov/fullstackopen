@@ -68,7 +68,7 @@ const PostForm = ({ handleNewBlog }) => {
             />
           </p>
         </label>
-        <button type='submit'>create</button>
+        <button id='create' type='submit'>create</button>
       </form>
     </div>
   )
