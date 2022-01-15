@@ -20,7 +20,7 @@ const Blog = ({
   const deleteButton = () => {
     if (blog.user.username === loggedUser) {
       return (
-        <button onClick={() => handleBlogDelete()}>delete</button>
+        <button id='delete' onClick={() => handleBlogDelete()}>delete</button>
       )
     }
   }
@@ -30,7 +30,7 @@ const Blog = ({
       <div style={blogStyle} className='shortBlogInfo'>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() => setVisible(true)}>view</button>
+          <button id ='view' onClick={() => setVisible(true)}>view</button>
         </div>
       </div>
     )
@@ -45,7 +45,7 @@ const Blog = ({
         {blog.url}
       </div>
       <div>
-        likes {blog.likes} <button onClick={handleLike}>like</button>
+        likes {blog.likes} <button id='like' onClick={handleLike}>like</button>
       </div>
       <div>
         {blog.user.name}
