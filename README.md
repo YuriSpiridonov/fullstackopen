@@ -15,7 +15,7 @@ An overall introduction to the course. It introduces to some concepts like HTTP 
 [View solutions folder](/part0)
 
 ### Part 1 - [Introduction to React](https://fullstackopen.com/en/part1)
-This part introduces to React concepts. It covers the basics: components, props, JSX and more advanced concepts: Javascript functionalities that are used a lot in React (`.map()`, `.filter()`, `.reduce()`), destructuring, event handlers in React and passing state to child components, spread operator, hooks and their rules and conditional rendering.
+This part introduces to _React_ concepts. It covers the basics: components, props, JSX and more advanced concepts: Javascript functionalities that are used a lot in _React_ (`.map()`, `.filter()`, `.reduce()`), destructuring, event handlers in _React_ and passing state to child components, spread operator, hooks and their rules and conditional rendering.
 - [courseinfo](/part1/courseinfo) - Simple course information page which counts total number of exercises of the course.
 - [unicafe](/part1/unicafe) - This app gathers feedbacks and makes statistic.
 - [anecdotes](/part1/anecdotes) - This app provides to vote for a random anecdote, also shows the most voted anecdote.
@@ -23,7 +23,7 @@ This part introduces to React concepts. It covers the basics: components, props,
 [View solutions folder](/part1)
 
 ### Part 2 - [Communicating with server](https://fullstackopen.com/en/part2)
-This part covers how to display list items in React and how to handle forms. Introduces _JSON server_ and fetching data from it, _axios_ for sending `GET`, `PUT`, `POST` and `DELETE` requests and how to style your React app (CSS).
+This part covers how to display list items in _React_ and how to handle forms. Introduces _JSON server_ and fetching data from it, _axios_ for sending `GET`, `PUT`, `POST` and `DELETE` requests and how to style your React app (CSS).
 - [courseinfo](/part2/courseinfo) - Extended Course info app from part 1.
 - [phonebook](/part2/phonebook) - Phonebook, add/delete contacts with numbers, edit numbers.
 - [dataforcountries](/part2/dataforcountries) - A react app that fetches and displays information form the [REST Countries](https://restcountries.eu) and [Weatcher Stack](https://weatherstack.com/) API's.
@@ -42,3 +42,4 @@ This part is focused on token based authentication and testing the _React_ compo
 - [bloglist-frontend](/part5/bloglist-frontend) - The app frontend code.
 
 ### Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
+This part is focused on Redux, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use Redux with hooks, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
