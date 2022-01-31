@@ -17,6 +17,18 @@ const asObject = (anecdote) => {
   }
 }
 
+export const anecdoteToAdd = (content) => {
+  return {
+    type: 'ANECDOTE',
+    data: asObject(content)
+    // data: {
+    //   content,
+    //   votes: 0,
+    //   id: getId()
+    // }
+  }
+}
+
 export const increaseVote = (id) => {
   return {
     type: 'VOTE',
@@ -30,6 +42,9 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch(action.type) {
+    case 'ANECDOTE':
+      const anecdote = action.data
+      return state.concat(anecdote)
     case 'VOTE':
       const id = action.data.id
       const anecdoteToVote = state.find(anecdote => anecdote.id === id)
@@ -41,7 +56,6 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : voteAnecdote
       )
   }
-
   return state
 }
 
