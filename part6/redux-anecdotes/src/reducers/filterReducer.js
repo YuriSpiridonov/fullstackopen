@@ -10,7 +10,9 @@ const filterReducer = (state = '', action) => {
 export const filterChange = filter => {
   return {
     type: 'FILTER',
-    data : { filter }
+    data : { 
+      filter 
+    }
   }
 }
 

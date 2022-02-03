@@ -21,11 +21,6 @@ export const anecdoteToAdd = (anecdote) => {
   return {
     type: 'ANECDOTE',
     data: asObject(anecdote)
-    // data: {
-    //   content,
-    //   votes: 0,
-    //   id: getId()
-    // }
   }
 }
 
@@ -57,7 +52,6 @@ const reducer = (state = initialState, action) => {
       ).sort((a, b) => b.votes - a.votes)
     default: return state
   }
-  // return state
 }
 
 export default reducer
