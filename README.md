@@ -44,3 +44,4 @@ This part is focused on token based authentication and testing the _React_ compo
 ### Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
 This part is focused on Redux, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use Redux with hooks, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
 - [unicafe-redux](/part6/unicafe-redux) - The app source code.
+- [redux-anecdotes](/part6/redux-anecdotes) - The app source code.
