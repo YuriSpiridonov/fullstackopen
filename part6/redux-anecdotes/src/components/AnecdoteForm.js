@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { anecdoteToAdd } from './../reducers/anecdoteReducer'
 import { showNotification, timeoutForNotification } from './../reducers/notificationReducer'
 
-
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
   const addAnecdote = (event) => {
