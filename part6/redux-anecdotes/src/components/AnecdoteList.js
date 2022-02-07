@@ -12,8 +12,7 @@ const AnecdoteList = () => {
         anecdote.content
           .toLowerCase()
           .includes(state.filter.toLowerCase()))
-  }
-  )
+  }).sort((a, b) => b.votes - a.votes)
   const vote = (id) => {
     dispatch(increaseVote(id))
   }
