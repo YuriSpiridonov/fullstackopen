@@ -1,19 +1,24 @@
 import anecdoteService from '../services/anecdotes'
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+// const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+// const asObject = (anecdote) => {
+//   return {
+//     content: anecdote,
+//     id: getId(),
+//     votes: 0
+//   }
+// }
 
-export const anecdoteToAdd = (anecdote) => {
-  return {
-    type: 'ANECDOTE',
-    data: asObject(anecdote)
+export const anecdoteToAdd = (content) => {
+  console.log(content)
+  return async (dispatch) => {
+    const anecdote = await anecdoteService.addAnecdote(content)
+    dispatch({
+      type: 'ANECDOTE',
+      data: anecdote
+      // data: asObject(anecdote)
+    })
   }
 }
 
