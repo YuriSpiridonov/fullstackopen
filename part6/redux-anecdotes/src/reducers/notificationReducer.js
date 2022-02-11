@@ -11,7 +11,6 @@ const notificationReducer = (state = '', action) => {
 
 export const showNotification = (notification, delay) => {
   return async (dispatch) => {
-    // const notification = await 
     dispatch({ 
       type: 'NOTIFICATION',
       data: {
@@ -24,15 +23,6 @@ export const showNotification = (notification, delay) => {
 
   }
 }
-
-// export const showNotification = notification => {
-//   return {
-//     type: 'NOTIFICATION',
-//     data: {
-//       notification,
-//     }
-//   }
-// }
 
 export const timeoutForNotification = () => {
   return {

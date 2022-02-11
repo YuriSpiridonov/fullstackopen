@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import { anecdoteToAdd } from '../reducers/anecdoteReducer'
 
 const baseUrl = 'http://localhost:3001/anecdotes'
 
@@ -19,7 +18,7 @@ const updateAnecdoteVotes = async (id) => {
 }
 
 const addAnecdote = async (content) => {
-  const anecdote = { content, id: getId(), votes: 0 }// anecdoteToAdd(content)
+  const anecdote = { content, id: getId(), votes: 0 }
   const response = await axios.post(baseUrl, anecdote)
   return response.data
 }
