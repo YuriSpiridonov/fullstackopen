@@ -1,6 +1,6 @@
 import React from 'react'
 // import { useSelector } from 'react-redux' // hook
-import { connect } from 'react-redux' // connwect
+import { connect } from 'react-redux' // connect
 
 // const Notification = () => { // hook
 const Notification = (props) => { // connect
@@ -32,5 +32,7 @@ const mapStateToProps = (state) => { // v connect
 } // ^ connect
 
 // export default Notification // hook
-const ConnectedNotification = connect(mapStateToProps)(Notification) // v connect
-export default ConnectedNotification // ^ connect
+const ConnectedNotification = connect(
+  mapStateToProps
+)(Notification) // connect
+export default ConnectedNotification // connect
