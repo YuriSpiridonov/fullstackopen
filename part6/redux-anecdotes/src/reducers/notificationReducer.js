@@ -9,20 +9,29 @@ const notificationReducer = (state = '', action) => {
   }
 }
 
-export const showNotification = (notification, delay) => {
-  return async (dispatch) => {
-    dispatch({ 
+let delayId = null
+
+export const showNotification = (notification, delay) => async dispatch =>{
+  if (delayId !== null) {
+    clearTimeout(delayId)
+  }
+  delayId = setTimeout(() => {
+    dispatch(timeoutForNotification())
+  }, delay * 1000)
+
+  // return async (dispatch) => {
+  return dispatch({ 
       type: 'NOTIFICATION',
       data: {
         notification,
-        delay: setTimeout(() => {
-          dispatch(timeoutForNotification())
-        }, delay * 1000)
+        // delay: setTimeout(() => {
+        //   dispatch(timeoutForNotification())
+        // }, delay * 1000)
       }
     })
 
   }
-}
+// }
 
 export const timeoutForNotification = () => {
   return {
