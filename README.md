@@ -43,3 +43,8 @@ This part is focused on token based authentication and testing the _React_ compo
 
 ### Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
 This part is focused on Redux, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use Redux with hooks, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
+
+### Part 7 - [React router, custom hooks, styling app with CSS and webpack](https://fullstackopen.com/en/part7)
+This part handles a lot of different subjects. Such as _React router_ (with hooks) which used to navigate in _React_ apps, how to create custom hooks, ways to style an app and which UI libraries can be used. This part also covers how to use _Webpack_ instead of Create-React-App to setup an app, and gives a short overview of class components.
+
+- [routed-anecdotes-main](/part7/routed-anecdotes-main) - The app source code.
