@@ -30,7 +30,7 @@ This part covers how to display list items in _React_ and how to handle forms. I
 
 ### Part 3 - [Programming a server with NodeJS and Express](https://fullstackopen.com/en/part3)
 This part is focused on the backend. How to: implement a simple REST API in _Node.js_ using _Express_, connect to a database (_MongoDB_) to store and retrieve data, deploy your app.
-- [phonebook](/part3/phonebookbackend) - The app source backend code.
+- [phonebook](/part3/) - The app source backend code.
 - [phonebook](https://phonebook6.herokuapp.com/) - The app deployed on Heroku. Frontend from part 2 and Backend from part 3 works together.
 
 ### Part 4 - [Testing Express servers, user administration](https://fullstackopen.com/en/part4)
@@ -43,8 +43,5 @@ This part is focused on token based authentication and testing the _React_ compo
 
 ### Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
 This part is focused on Redux, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use Redux with hooks, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
-
-### Part 7 - [React router, custom hooks, styling app with CSS and webpack](https://fullstackopen.com/en/part7)
-This part handles a lot of different subjects. Such as _React router_ (with hooks) which used to navigate in _React_ apps, how to create custom hooks, ways to style an app and which UI libraries can be used. This part also covers how to use _Webpack_ instead of Create-React-App to setup an app, and gives a short overview of class components.
-
-- [routed-anecdotes-main](/part7/routed-anecdotes-main) - The app source code.
+- [unicafe-redux](/part6/unicafe-redux) - The app source code.
+- [redux-anecdotes](/part6/redux-anecdotes) - The app source code.
