@@ -3,6 +3,8 @@ import {
   Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
 
+import { useField } from './hooks'
+
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -65,21 +67,41 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const [content, resetContent] = useField('text')
+  const [author, resetAuthor] = useField('text')
+  const [info, resetInfo] = useField('text')
+  
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
 
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
-    })
-    navigate('/')
+  const handleSubmit = (event) => {
+    if (event.type === 'submit') {
+      event.preventDefault()
+      props.addNew({
+        content: content.value,
+        author: author.value,
+        info: info.value,
+        votes: 0
+      })
+      navigate('/')
+    }
+    // event.preventDefault()
+    // props.addNew({
+    //   content: content.value,
+    //   author: author.value,
+    //   info: info.value,
+    //   votes: 0
+    // })
+    // navigate('/')
+  }
+
+  const resetForm = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
 
   return (
@@ -88,17 +110,21 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content} />
+          {/* <input name='content' value={content} onChange={(e) => setContent(e.target.value)} /> */}
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author} />
+          {/* <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} /> */}
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info} />
+          {/* <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} /> */}
         </div>
-        <button>create</button>
+        <button type='create'>create</button>
+        <button type='reset' onClick={resetForm}>reset</button>
       </form>
     </div>
   )
@@ -133,6 +159,8 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
+
+  // const username = useField('text')
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
