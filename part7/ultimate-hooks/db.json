@@ -15,6 +15,10 @@
     {
       "content": "useMemo for config",
       "id": 4
+    },
+    {
+      "content": "new note after useField was moved to the hooks folder",
+      "id": 5
     }
   ],
   "persons": [
@@ -32,6 +36,11 @@
       "name": "muller",
       "number": "178-324-2342",
       "id": 3
+    },
+    {
+      "name": "bob",
+      "number": "159-345-2333",
+      "id": 4
     }
   ]
 }
