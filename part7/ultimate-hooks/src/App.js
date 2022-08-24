@@ -1,50 +1,5 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-
-const useField = (type) => {
-  const [value, setValue] = useState('')
-
-  const onChange = (event) => {
-    setValue(event.target.value)
-  }
-
-  return {
-    type,
-    value,
-    onChange
-  }
-}
-
-const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
-
-  const config = {
-    headers: { 'Content-Type': 'application/json',
-               'Authorization': 'JWT fefege...' },
-  }
-  
-  useEffect(() => {
-    axios
-      .get(baseUrl, config)
-      .then(response => setResources(response.data))
-      .catch((error) => console.log(error))
-  }, [baseUrl])
-
-  const create = (resource) => {
-    axios
-      .post(baseUrl, resource, config)
-      .then(response => setResources([...resources, response.data]))
-      .catch((error) => console.log(error))
-  }
-
-  const service = {
-    create
-  }
-
-  return [
-    resources, service
-  ]
-}
+import { useField } from './hooks/useField'
+import { useResource } from './hooks/useResource'
 
 const App = () => {
   const content = useField('text')
