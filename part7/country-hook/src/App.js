@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import Country from './components/Country'
-import { useCountry } from './hooks/useCountry'
-import { useField } from './hooks/useField'
+import { useState } from "react";
+import Country from "./components/Country";
+import { useCountry } from "./hooks/useCountry";
+import { useField } from "./hooks/useField";
 
 const App = () => {
-  const nameInput = useField('text')
-  const [name, setName] = useState('')
-  const country = useCountry(name)
+  const nameInput = useField("text");
+  const [name, setName] = useState("");
+  const country = useCountry(name);
 
   const fetch = (e) => {
-    e.preventDefault()
-    setName(nameInput.value)
-  }
+    e.preventDefault();
+    setName(nameInput.value);
+  };
   return (
     <div>
       <form onSubmit={fetch}>
@@ -21,7 +21,7 @@ const App = () => {
 
       <Country country={country} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

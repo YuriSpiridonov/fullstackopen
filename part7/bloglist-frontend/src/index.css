@@ -1,0 +1,29 @@
+h1 {
+    color: green;
+  }
+  
+  .note {
+    color: royalblue;
+    padding-top: 3px;
+    font-size: 15px;
+  }
+  
+  .error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .notification {
+    color: green;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
