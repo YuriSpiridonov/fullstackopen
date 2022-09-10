@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import Blog from "./Blog";
+import Blog from './Blog'
 
 const BlogList = ({ blogs, handleLike, handleBlogDelete, loggedUser }) => (
   <div>
@@ -15,13 +15,13 @@ const BlogList = ({ blogs, handleLike, handleBlogDelete, loggedUser }) => (
       />
     ))}
   </div>
-);
+)
 
 BlogList.propTypes = {
   blogs: PropTypes.array.isRequired,
   handleLike: PropTypes.func.isRequired,
   handleBlogDelete: PropTypes.func.isRequired,
   loggedUser: PropTypes.string.isRequired,
-};
+}
 
-export default BlogList;
+export default BlogList
