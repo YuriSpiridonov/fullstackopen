@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleBlogDelete, loggedUser }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLewft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
-  const [isVisible, setVisible] = useState(false);
+  const [isVisible, setVisible] = useState(false)
 
   const deleteButton = () => {
     if (blog.user.username === loggedUser) {
@@ -18,9 +18,9 @@ const Blog = ({ blog, handleLike, handleBlogDelete, loggedUser }) => {
         <button id="delete" onClick={() => handleBlogDelete()}>
           delete
         </button>
-      );
+      )
     }
-  };
+  }
 
   if (!isVisible) {
     return (
@@ -32,18 +32,18 @@ const Blog = ({ blog, handleLike, handleBlogDelete, loggedUser }) => {
           </button>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div style={blogStyle}>
       <div>
-        {blog.title} {blog.author}{" "}
+        {blog.title} {blog.author}{' '}
         <button onClick={() => setVisible(false)}>hide</button>
       </div>
       <div>{blog.url}</div>
       <div>
-        likes {blog.likes}{" "}
+        likes {blog.likes}{' '}
         <button id="like" onClick={handleLike}>
           like
         </button>
@@ -51,14 +51,14 @@ const Blog = ({ blog, handleLike, handleBlogDelete, loggedUser }) => {
       <div>{blog.user.name}</div>
       <div>{deleteButton()}</div>
     </div>
-  );
-};
+  )
+}
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   handleLike: PropTypes.func.isRequired,
   handleBlogDelete: PropTypes.func.isRequired,
   loggedUser: PropTypes.string.isRequired,
-};
+}
 
-export default Blog;
+export default Blog
