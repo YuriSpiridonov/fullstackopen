@@ -22,7 +22,7 @@ const PostForm = ({ handleNewBlog }) => {
       title: title,
       author: author,
       url: url,
-      likes: 0
+      likes: 0,
     })
     setTitle('')
     setAuthor('')
@@ -31,15 +31,15 @@ const PostForm = ({ handleNewBlog }) => {
 
   return (
     <div>
-      <form id='form' onSubmit={handleSubmit}>
+      <form id="form" onSubmit={handleSubmit}>
         <label>
           <p>
             Title:
             <input
-              id='title'
-              type='text'
+              id="title"
+              type="text"
               value={title}
-              name='Title:'
+              name="Title:"
               onChange={handleTitleChange}
             />
           </p>
@@ -48,8 +48,8 @@ const PostForm = ({ handleNewBlog }) => {
           <p>
             Author:
             <input
-              id='author'
-              type='text'
+              id="author"
+              type="text"
               value={author}
               name="Author:"
               onChange={handleAuthorChange}
@@ -60,15 +60,17 @@ const PostForm = ({ handleNewBlog }) => {
           <p>
             Url:
             <input
-              id='url'
-              type='text'
+              id="url"
+              type="text"
               value={url}
               name="Url:"
               onChange={handleUrlChange}
             />
           </p>
         </label>
-        <button id='create' type='submit'>create</button>
+        <button id="create" type="submit">
+          create
+        </button>
       </form>
     </div>
   )

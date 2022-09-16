@@ -2,10 +2,14 @@
 
 import { combineReducers } from 'redux'
 
-import notificationReducer from '../reducers/notification/notificationReducer'
+import notificationsReducer from '../reducers/notifications/notificationsReducer'
+import blogsReducer from '../reducers/blogs/blogsReducer'
+import loginReducer from '../reducers/login/loginReducer'
 // export const store = createStore({ reducer: notificationReducer })
 export const rootReducer = combineReducers({
-  notification: notificationReducer,
+  notifications: notificationsReducer,
+  blogs: blogsReducer,
+  loggedinUser: loginReducer,
 })
 
 export default rootReducer
