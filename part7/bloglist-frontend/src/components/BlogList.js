@@ -1,27 +1,34 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Blog from './Blog'
 
-const BlogList = ({ blogs, handleLike, handleBlogDelete, loggedUser }) => (
-  <div>
-    {blogs.map((blog) => (
-      <Blog
-        key={blog.id}
-        blog={blog}
-        handleLike={() => handleLike(blog)}
-        handleBlogDelete={() => handleBlogDelete(blog)}
-        loggedUser={loggedUser}
-      />
-    ))}
-  </div>
-)
+import { likeBlog, deleteBlog } from '../reducers/blogs/blogsReducer'
 
-BlogList.propTypes = {
-  blogs: PropTypes.array.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleBlogDelete: PropTypes.func.isRequired,
-  loggedUser: PropTypes.string.isRequired,
+const BlogList = () => {
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+
+  const handleLike = async (blog) => {
+    dispatch(likeBlog(blog))
+  }
+  const handleBlogDelete = (blog) => dispatch(deleteBlog(blog))
+
+  const loggedUser = useSelector((state) => state.loggedinUser)
+  return (
+    <div>
+      {sortedBlogs.map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLike={() => handleLike(blog)}
+          handleBlogDelete={() => handleBlogDelete(blog)}
+          loggedUser={loggedUser}
+        />
+      ))}
+    </div>
+  )
 }
 
 export default BlogList
