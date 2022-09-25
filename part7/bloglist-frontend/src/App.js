@@ -6,6 +6,7 @@ import { Routes, Route, useMatch } from 'react-router-dom'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import MainPageContent from './components/MainPageContent'
+import User from './components/User'
 import Users from './components/Users'
 
 import { initializeBlogs } from './reducers/blogs/blogsReducer'
@@ -15,13 +16,19 @@ const App = () => {
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.loggedinUser)
+  const users = useSelector((state) => state.users)
+
+  const currentUserMatch = useMatch('/users/:id')
+  // console.log('currentUserMatch ', currentUserMatch)
+  const currentUser = currentUserMatch
+    ? users.find((user) => user._id === currentUserMatch.params.id)
+    : null
+  // console.log('currentUser ', currentUser)
 
   useEffect(() => {
     dispatch(initializeBlogs)
     dispatch(initializeUsers)
   }, [dispatch])
-
-  // const match = useMatch('/users')
 
   const handleLogout = () => {
     dispatch({ type: 'login/userLogout' })
@@ -46,6 +53,7 @@ const App = () => {
             </button>
           </p>
           <Routes>
+            <Route path="/users/:id" element={<User user={currentUser} />} />
             <Route path="/users" element={<Users />} />
             <Route path="/" element={<MainPageContent />} />
           </Routes>

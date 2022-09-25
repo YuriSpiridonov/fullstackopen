@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useSelector } from 'react-redux'
 
-import User from './User'
+import UsersList from './UsersList'
 
 // import usersReducer from '../reducers/users/usersReducer'
 
@@ -11,7 +11,7 @@ const Users = () => {
   return (
     <div>
       <h2>Users</h2>
-      <User users={users} />
+      <UsersList users={users} />
     </div>
   )
 }
