@@ -7,6 +7,8 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`
 }
 
+// console.log('token ', token)
+
 const getAll = async () => {
   const response = await axios.get(baseUrl)
   return response.data
@@ -31,6 +33,7 @@ const like = async (blog) => {
     { ...blog, likes: blog.likes + 1 },
     config,
   )
+  // console.log('data after like ', response.data)
   return response.data
 }
 
