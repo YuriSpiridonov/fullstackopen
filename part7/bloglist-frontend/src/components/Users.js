@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux'
 
 import UsersList from './UsersList'
 
-// import usersReducer from '../reducers/users/usersReducer'
-
 const Users = () => {
   const users = useSelector((state) => state.users)
 
