@@ -9,6 +9,7 @@ import MainPageContent from './components/MainPageContent'
 import User from './components/User'
 import Users from './components/Users'
 import BlogPage from './components/BlogPage'
+import NavBar from './components/NavBar'
 
 import { initializeBlogs } from './reducers/blogs/blogsReducer'
 import { initializeUsers } from './reducers/users/usersReducer'
@@ -19,34 +20,21 @@ const App = () => {
   const user = useSelector((state) => state.loggedinUser)
   const users = useSelector((state) => state.users)
   const blogs = useSelector((state) => state.blogs)
-  const all = useSelector((state) => state)
-  // console.log('check all wgat saved in state ', all)
-  // console.log('all blogs in state ', blogs)
 
   const currentUserMatch = useMatch('/users/:id')
-  // console.log('currentUserMatch ', currentUserMatch)
   const currentUser = currentUserMatch
     ? users.find((user) => user._id === currentUserMatch.params.id)
     : null
-  // console.log('currentUser ', currentUser)
 
   const currentBlogMatch = useMatch('/blogs/:id')
-  // console.log(currentBlogMatch)
-  // console.log('blog ', { blogs })
   const currentBlog = currentBlogMatch
     ? blogs.find((blog) => blog.id === currentBlogMatch.params.id)
     : null
-  // console.log('curernt blog mact ', currentBlogMatch)
-  // console.log('current blog ', currentBlog)
 
   useEffect(() => {
     dispatch(initializeBlogs)
     dispatch(initializeUsers)
   }, [dispatch])
-
-  const handleLogout = () => {
-    dispatch({ type: 'login/userLogout' })
-  }
 
   return (
     <div>
@@ -58,14 +46,9 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <h1>blogs</h1>
           <Notification />
-          <p>
-            {user.name} logged in{' '}
-            <button id="logout" onClick={handleLogout}>
-              logout
-            </button>
-          </p>
+          <NavBar />
+          <h1>blog app</h1>
           <Routes>
             <Route path="/" element={<MainPageContent />} />
             <Route path="/users" element={<Users />} />

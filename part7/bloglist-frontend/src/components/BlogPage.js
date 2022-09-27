@@ -13,7 +13,6 @@ const BlogPage = ({ blog }) => {
   }
 
   const handleBlogDelete = (blog) => {
-    // console.log('delete blog ', blog)
     if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
       dispatch(deleteBlog(blog))
       navigate('/')
@@ -21,12 +20,6 @@ const BlogPage = ({ blog }) => {
   }
 
   const deleteButton = () => {
-    // console.log(
-    //   'blog user name',
-    //   blog.user.username,
-    //   ' logged user ',
-    //   loggedUser,
-    // )
     if (blog.user.username === loggedUser.username) {
       return (
         <button id="delete" onClick={() => handleBlogDelete(blog)}>
@@ -42,7 +35,6 @@ const BlogPage = ({ blog }) => {
         <h2>
           {blog.title} {blog.author}{' '}
         </h2>
-        {/* <button onClick={() => setVisible(false)}>hide</button> */}
       </div>
       <div>
         <a href={blog.url} target="_blank">

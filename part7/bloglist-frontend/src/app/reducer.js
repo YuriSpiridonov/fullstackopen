@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import { combineReducers } from 'redux'
 
 import notificationsReducer from '../reducers/notifications/notificationsReducer'
