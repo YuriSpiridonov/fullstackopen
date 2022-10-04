@@ -1,8 +1,10 @@
 /* eslint-disable */
-
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-const UsersList = ({ users }) => {
+// const UsersList = ({ users }) => {
+const UsersList = () => {
+  const users = useSelector((state) => state.users)
   return (
     <table>
       <thead>

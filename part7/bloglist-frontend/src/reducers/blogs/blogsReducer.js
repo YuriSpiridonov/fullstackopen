@@ -1,5 +1,6 @@
 /* eslint-disable */
 import blogService from '../../services/blogs'
+import commentService from '../../services/comments'
 
 const initialState = []
 
@@ -22,6 +23,22 @@ const blogsReducer = (state = initialState, action) => {
     }
     case 'blogs/deleteBlog': {
       return state.filter((blog) => blog.id !== action.payload.id)
+    }
+    case 'blogs/saveNewComment': {
+      // return state.map((blog) => {
+      //   blog.id !== action.payload.id
+      //     ? blog
+      //     : { ...blog, comments: action.payload.comments }
+      // })
+      return state.map((blog) => {
+        if (blog.id !== action.payload.id) {
+          return blog
+        }
+        return {
+          ...blog,
+          comments: [...blog.comments, action.payload.comments], //action.payload.comments
+        }
+      })
     }
     default:
       return state
@@ -53,6 +70,16 @@ export const deleteBlog = (blog) => {
     await blogService.deleteBlog(blog)
     dispatch({ type: 'blogs/deleteBlog', payload: blog })
     // }
+  }
+}
+
+export const saveNewComment = (id, newComment) => {
+  return async (dispatch) => {
+    const response = await commentService.create(id, newComment)
+    dispatch({
+      type: 'blogs/saveNewComment',
+      payload: { id, comments: response },
+    })
   }
 }
 

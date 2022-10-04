@@ -19,17 +19,20 @@ const App = () => {
 
   const user = useSelector((state) => state.loggedinUser)
   const users = useSelector((state) => state.users)
-  const blogs = useSelector((state) => state.blogs)
+  // const blogs = useSelector((state) => state.blogs)
 
   const currentUserMatch = useMatch('/users/:id')
   const currentUser = currentUserMatch
     ? users.find((user) => user._id === currentUserMatch.params.id)
     : null
 
-  const currentBlogMatch = useMatch('/blogs/:id')
-  const currentBlog = currentBlogMatch
-    ? blogs.find((blog) => blog.id === currentBlogMatch.params.id)
-    : null
+  // const currentBlogMatch = useMatch('/blogs/:id')
+  // // console.log(`blogs ${blogs} users ${users}`)
+  // // console.log(`currentBlogMatch ${currentBlogMatch}`)
+  // // console.log(`currentBlogMatch ${currentBlogMatch}`)
+  // const currentBlog = currentBlogMatch
+  // //   ? blogs.find((blog) => blog.id === currentBlogMatch.params.id)
+  // //   : null
 
   useEffect(() => {
     dispatch(initializeBlogs)
@@ -46,8 +49,8 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <Notification />
           <NavBar />
+          <Notification />
           <h1>blog app</h1>
           <Routes>
             <Route path="/" element={<MainPageContent />} />
@@ -55,7 +58,7 @@ const App = () => {
             <Route path="/users/:id" element={<User user={currentUser} />} />
             <Route
               path="/blogs/:id"
-              element={<BlogPage blog={currentBlog} />}
+              element={<BlogPage />} // blog={currentBlog}
             />
           </Routes>
         </div>
