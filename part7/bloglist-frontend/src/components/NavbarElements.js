@@ -21,6 +21,15 @@ export const NavLink = styled(Link)`
   cursor: pointer;
 `
 
+export const NavLoggedUser = styled.div`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+`
+
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;

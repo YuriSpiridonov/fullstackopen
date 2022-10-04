@@ -2,7 +2,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Nav, NavLink, NavMenu } from './NavbarElements'
+import { Nav, NavLink, NavMenu, NavLoggedUser } from './NavbarElements'
 
 const NavBar = () => {
   const dispatch = useDispatch()
@@ -27,13 +27,9 @@ const NavBar = () => {
     <>
       <Nav>
         <NavMenu>
-          <NavLink to="/" activeStyle>
-            blogs
-          </NavLink>
-          <NavLink to="/users" activeStyle>
-            users
-          </NavLink>
-          {loggedUser()}
+          <NavLink to="/">blogs</NavLink>
+          <NavLink to="/users">users</NavLink>
+          <NavLoggedUser>{loggedUser()}</NavLoggedUser>
         </NavMenu>
       </Nav>
     </>
