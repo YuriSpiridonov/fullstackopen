@@ -10,29 +10,15 @@ import {
   deleteBlog,
   saveNewComment,
 } from '../reducers/blogs/blogsReducer'
-// import blogs from '../services/blogs'
 
-// const BlogPage = ({ blog }) => {
 const BlogPage = () => {
-  // console.log('blogblogblog ', blog)
-  // if (!blog) {
-  //   // const blog = useSelector((state) => state.blogs)
-  //   return null
-  // }
   const blogs = useSelector((state) => state.blogs)
-  // const users = useSelector((state) => state.users)
-  // console.log('blogs from state', blogs)
-  // console.log('users from state', users)
   const { id } = useParams()
-  // console.log('blogspage id', id)
   const blog = blogs.find((blog) => blog.id === id)
-
-  // console.log('blogblogblog ', blog)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const loggedUser = useSelector((state) => state.loggedinUser)
-  // const blogs = useSelector((state) => state.blogs)
 
   const handleLike = () => {
     dispatch(likeBlog(blog))
@@ -67,7 +53,6 @@ const BlogPage = () => {
       }, 5000)
       return null
     }
-    // console.log(`handlenew comment    blog id check ${blog.id}`)
     dispatch(saveNewComment(blog.id, newComment))
 
     const notification = {
@@ -108,18 +93,6 @@ const BlogPage = () => {
       <h3>comments</h3>
       <CommentForm handleNewComment={handleNewComment} />
       <Comment />
-      {/* {blog.comments.length > 0 ? (
-        <ul>
-          {blog.comments.map((comment) => (
-            <li key={comment.id}>{comment.comment}</li>
-          ))}
-        </ul>
-      ) : null} */}
-      {/* <ul>
-        {blog.comments.map((comment) => (
-          <li key={comment.id}>{comment}</li>
-        ))}
-      </ul> */}
     </div>
   )
 }

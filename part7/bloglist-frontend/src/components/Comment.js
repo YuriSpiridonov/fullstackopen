@@ -7,8 +7,6 @@ const Comment = () => {
   const blogs = useSelector((state) => state.blogs)
   const blog = blogs.find((blog) => blog.id === id)
 
-  // console.log('comment, render', blog)
-
   return (
     <div>
       {blog.comments.length > 0 ? (
