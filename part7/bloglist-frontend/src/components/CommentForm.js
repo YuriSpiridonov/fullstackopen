@@ -11,7 +11,6 @@ const CommentForm = ({ handleNewComment }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     handleNewComment({
-      // comment: comment,
       comment,
     })
     setComment('')

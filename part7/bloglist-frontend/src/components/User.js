@@ -1,14 +1,7 @@
 /* eslint-disable */
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import Blog from './Blog'
 
 const User = ({ user }) => {
-  // const User = () => {
-  //   const { _id } = useParams()
-  //   const users = useSelector((state) => state.users)
-  //   const user = users.find((user) => user.id === _id)
-
   if (!user) return null
 
   return (

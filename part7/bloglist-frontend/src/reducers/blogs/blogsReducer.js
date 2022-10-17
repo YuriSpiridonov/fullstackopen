@@ -25,11 +25,6 @@ const blogsReducer = (state = initialState, action) => {
       return state.filter((blog) => blog.id !== action.payload.id)
     }
     case 'blogs/saveNewComment': {
-      // return state.map((blog) => {
-      //   blog.id !== action.payload.id
-      //     ? blog
-      //     : { ...blog, comments: action.payload.comments }
-      // })
       return state.map((blog) => {
         if (blog.id !== action.payload.id) {
           return blog
@@ -66,10 +61,8 @@ export const likeBlog = (blog) => {
 
 export const deleteBlog = (blog) => {
   return async (dispatch) => {
-    // if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
     await blogService.deleteBlog(blog)
     dispatch({ type: 'blogs/deleteBlog', payload: blog })
-    // }
   }
 }
 
