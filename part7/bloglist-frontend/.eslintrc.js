@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     //"prettier", //
   ],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -34,6 +35,7 @@ module.exports = {
     'arrow-spacing': ['error', { before: true, after: true }],
     'no-console': 0,
     'react/prop-types': 0,
+    'no-extra-semi': 0,
   },
   settings: {
     react: {

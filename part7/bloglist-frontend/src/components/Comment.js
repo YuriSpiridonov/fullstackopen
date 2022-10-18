@@ -2,6 +2,8 @@
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+import ListGroup from 'react-bootstrap/ListGroup'
+
 const Comment = () => {
   const { id } = useParams()
   const blogs = useSelector((state) => state.blogs)
@@ -10,11 +12,11 @@ const Comment = () => {
   return (
     <div>
       {blog.comments.length > 0 ? (
-        <ul>
+        <ListGroup variant="flush">
           {blog.comments.map((comment) => (
-            <li key={comment.id}>{comment.comment}</li>
+            <ListGroup.Item key={comment.id}>{comment.comment}</ListGroup.Item>
           ))}
-        </ul>
+        </ListGroup>
       ) : null}
     </div>
   )

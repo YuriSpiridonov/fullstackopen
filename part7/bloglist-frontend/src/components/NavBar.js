@@ -2,7 +2,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Nav, NavLink, NavMenu, NavLoggedUser } from './NavbarElements'
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import Button from 'react-bootstrap/Button'
 
 const NavBar = () => {
   const dispatch = useDispatch()
@@ -14,24 +17,30 @@ const NavBar = () => {
 
   const loggedUser = () => {
     return (
-      <p>
-        {user.name} logged in{' '}
-        <button id="logout" onClick={handleLogout}>
+      <>
+        <>{user.name} logged in </>
+        <Button variant="primary" id="logout" onClick={handleLogout}>
           logout
-        </button>
-      </p>
+        </Button>
+      </>
     )
   }
 
   return (
     <>
-      <Nav>
-        <NavMenu>
-          <NavLink to="/">blogs</NavLink>
-          <NavLink to="/users">users</NavLink>
-          <NavLoggedUser>{loggedUser()}</NavLoggedUser>
-        </NavMenu>
-      </Nav>
+      <Navbar bg="light" expand="lg">
+        <Container>
+          <Navbar.Brand href="\">B.A.</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="\">Blogs</Nav.Link>
+              <Nav.Link href="\users">Users</Nav.Link>
+            </Nav>
+            <Navbar.Text>{loggedUser()}</Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </>
   )
 }

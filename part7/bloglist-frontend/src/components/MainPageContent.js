@@ -39,7 +39,7 @@ const MainPageContent = () => {
 
   return (
     <div>
-      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+      <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
         <PostForm handleNewBlog={handleNewBlog} />
       </Togglable>
       <BlogList />

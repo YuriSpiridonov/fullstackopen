@@ -11,6 +11,8 @@ import {
   saveNewComment,
 } from '../reducers/blogs/blogsReducer'
 
+import { Button } from 'react-bootstrap'
+
 const BlogPage = () => {
   const blogs = useSelector((state) => state.blogs)
   const { id } = useParams()
@@ -34,9 +36,14 @@ const BlogPage = () => {
   const deleteButton = () => {
     if (blog.user.username === loggedUser.username) {
       return (
-        <button id="delete" onClick={() => handleBlogDelete(blog)}>
-          delete
-        </button>
+        <Button
+          id="delete"
+          onClick={() => handleBlogDelete(blog)}
+          variant="danger"
+          size="sm"
+        >
+          Delete
+        </Button>
       )
     }
   }
@@ -83,16 +90,23 @@ const BlogPage = () => {
       </div>
       <div>
         likes {blog.likes}{' '}
-        <button id="like" onClick={handleLike}>
-          like
-        </button>
+        <Button
+          id="like"
+          onClick={handleLike}
+          variant="outline-info"
+          size="sm"
+          type="submit"
+        >
+          Like
+        </Button>
       </div>
       <div>added by {blog.user.name}</div>
       <div>{deleteButton()}</div>
-
-      <h3>comments</h3>
-      <CommentForm handleNewComment={handleNewComment} />
-      <Comment />
+      <div className="mt-5">
+        <h3>Comments</h3>
+        <CommentForm handleNewComment={handleNewComment} />
+        <Comment />
+      </div>
     </div>
   )
 }
