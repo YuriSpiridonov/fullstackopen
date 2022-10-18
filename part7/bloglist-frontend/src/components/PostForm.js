@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { Form, Button } from 'react-bootstrap'
+
 const PostForm = ({ handleNewBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -31,47 +33,44 @@ const PostForm = ({ handleNewBlog }) => {
 
   return (
     <div>
-      <form id="form" onSubmit={handleSubmit}>
-        <label>
-          <p>
-            Title:
-            <input
-              id="title"
-              type="text"
-              value={title}
-              name="Title:"
-              onChange={handleTitleChange}
-            />
-          </p>
-        </label>
-        <label>
-          <p>
-            Author:
-            <input
-              id="author"
-              type="text"
-              value={author}
-              name="Author:"
-              onChange={handleAuthorChange}
-            />
-          </p>
-        </label>
-        <label>
-          <p>
-            Url:
-            <input
-              id="url"
-              type="text"
-              value={url}
-              name="Url:"
-              onChange={handleUrlChange}
-            />
-          </p>
-        </label>
-        <button id="create" type="submit">
-          create
-        </button>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label className="mt-2">Title:</Form.Label>
+          <Form.Control
+            id="title"
+            type="text"
+            value={title}
+            name="Title:"
+            onChange={handleTitleChange}
+          />
+
+          <Form.Label className="mt-2">Author:</Form.Label>
+          <Form.Control
+            id="author"
+            type="text"
+            value={author}
+            name="Author:"
+            onChange={handleAuthorChange}
+          />
+
+          <Form.Label className="mt-2">Url:</Form.Label>
+          <Form.Control
+            id="url"
+            type="text"
+            value={url}
+            name="Url:"
+            onChange={handleUrlChange}
+          />
+        </Form.Group>
+        <Button
+          variant="success"
+          id="create"
+          className="justify-content-end mt-3"
+          type="submit"
+        >
+          Create{' '}
+        </Button>
+      </Form>
     </div>
   )
 }

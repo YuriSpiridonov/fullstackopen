@@ -1,29 +1,13 @@
-h1 {
-    color: green;
-  }
-  
-  .note {
-    color: royalblue;
-    padding-top: 3px;
-    font-size: 15px;
-  }
-  
-  .error {
-    color: red;
-    background: lightgrey;
-    font-size: 20px;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+* {
+  font-family: 'Sora', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  .notification {
-    color: green;
-    background: lightgrey;
-    font-size: 20px;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
+h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}

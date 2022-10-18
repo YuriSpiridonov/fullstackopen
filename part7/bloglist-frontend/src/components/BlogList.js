@@ -2,6 +2,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import Table from 'react-bootstrap/Table'
+
 import Blog from './Blog'
 
 const BlogList = () => {
@@ -9,7 +11,7 @@ const BlogList = () => {
   const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
 
   return (
-    <table>
+    <Table striped bordered hover>
       <tbody>
         {sortedBlogs.map((blog) => (
           <tr key={blog.id}>
@@ -19,7 +21,7 @@ const BlogList = () => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   )
 }
 

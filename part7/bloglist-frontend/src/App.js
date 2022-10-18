@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, useMatch } from 'react-router-dom'
 
+import blogService from './services/blogs'
+
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import MainPageContent from './components/MainPageContent'
@@ -30,11 +32,25 @@ const App = () => {
     dispatch(initializeUsers)
   }, [dispatch])
 
+  useEffect(() => {
+    const loggedInUserJSON = JSON.parse(
+      window.localStorage.getItem('loggedBlogappUser'),
+    )
+    if (loggedInUserJSON) {
+      const user = loggedInUserJSON
+      blogService.setToken(user?.token)
+    }
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    blogService.setToken(user?.token)
+  }, [user])
+
   return (
-    <div>
-      {user === null ? (
+    <div className="container">
+      {!user ? (
         <div>
-          <h1>log in to application</h1>
           <Notification />
           <LoginForm />
         </div>
@@ -42,7 +58,7 @@ const App = () => {
         <div>
           <NavBar />
           <Notification />
-          <h1>blog app</h1>
+          <h1>Blog App</h1>
           <Routes>
             <Route path="/" element={<MainPageContent />} />
             <Route path="/users" element={<Users />} />

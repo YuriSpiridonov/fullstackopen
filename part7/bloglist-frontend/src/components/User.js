@@ -1,6 +1,8 @@
 /* eslint-disable */
 import Blog from './Blog'
 
+import Table from 'react-bootstrap/Table'
+
 const User = ({ user }) => {
   if (!user) return null
 
@@ -8,7 +10,7 @@ const User = ({ user }) => {
     <div>
       <h2>{user.name}</h2>
       <h3>Added blogs</h3>
-      <table>
+      <Table striped bordered hover>
         <tbody>
           {user.blogs.map((blog) => (
             <tr key={blog.id}>
@@ -18,7 +20,7 @@ const User = ({ user }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
