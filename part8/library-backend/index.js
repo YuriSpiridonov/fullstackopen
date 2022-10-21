@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require("apollo-server");
+const { v1: uuid } = require("uuid");
 
 let authors = [
   {
@@ -93,12 +94,84 @@ let books = [
 ];
 
 const typeDefs = gql`
+  type Book {
+    title: String!
+    author: String!
+    published: Int!
+    genres: [String!]!
+    id: ID!
+  }
+
+  type Author {
+    name: String!
+    bookCount: Int!
+    born: Int
+    id: ID!
+  }
+
   type Query {
+    bookCount: Int!
+    authorCount: Int!
+    allBooks(author: String, genre: String): [Book!]!
+    allAuthors: [Author!]!
+  }
+
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
   }
 `;
 
 const resolvers = {
-  Query: {},
+  Query: {
+    bookCount: () => books.length,
+    authorCount: () => authors.length,
+    allBooks: (root, args) => {
+      if (args.author && args.genre) {
+        return books.filter(
+          (book) =>
+            book.author === args.author &&
+            book.genres.filter((genre) => genre === args.genre)
+        );
+      } else if (args.author) {
+        return books.filter((book) => book.author === args.author);
+      } else if (args.genre) {
+        return books.filter((book) =>
+          book.genres.find((genre) => genre === args.genre)
+        );
+      }
+      return books;
+    },
+    allAuthors: () =>
+      authors.map((author) => {
+        return {
+          name: author.name,
+          bookCount: books.filter((book) => book.author === author.name).length,
+          born: author.born,
+        };
+      }),
+  },
+
+  Mutation: {
+    addBook: (root, args) => {
+      const currentAuthor = authors.find(
+        (author) => author.name === args.author
+      );
+      if (!currentAuthor) {
+        const newAuthor = { name: args.author, id: uuid() };
+        authors = authors.concat(newAuthor);
+        // return newAuthor
+      }
+
+      const newBook = { ...args, id: uuid() };
+      books = books.concat(newBook);
+      return newBook;
+    },
+  },
 };
 
 const server = new ApolloServer({
