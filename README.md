@@ -80,4 +80,4 @@ This part handles a lot of different subjects. Such as _React router_ (with hook
 
 This part is about GraphQL, Facebook's alternative to REST API for communication between browser and server. In this parts covered basic GraphQL concepts like `schema`, `queries` and `resolver` also how to setup and use [Apollo's](https://www.apollographql.com/) `ApolloServer` and `ApolloClient`.
 
--[library-backend](/part8/library-backend) - The app source code.
+- [library-backend](/part8/library-backend) - The app source code.

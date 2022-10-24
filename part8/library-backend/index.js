@@ -153,6 +153,7 @@ const resolvers = {
           name: author.name,
           bookCount: books.filter((book) => book.author === author.name).length,
           born: author.born,
+          id: author.id,
         };
       }),
   },
