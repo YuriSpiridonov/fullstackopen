@@ -1,0 +1,7 @@
+node_modules
+.prettierrc.json
+
+# dotenv environment variables file
+.env
+.env.test
+.env.production
