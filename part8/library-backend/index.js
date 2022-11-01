@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, UserInputError, gql } = require("apollo-server");
 const config = require("./utils/config");
 const mongoose = require("mongoose");
 
@@ -129,7 +129,7 @@ const resolvers = {
           await book.save();
           return book;
         } catch (error) {
-          console.log(error);
+          throw new UserInputError(error.message, { invalidArgs: args });
         }
       } else {
         const book = new Book({ ...args, author: currentAuthor._id });
@@ -137,7 +137,7 @@ const resolvers = {
         try {
           await book.save();
         } catch (error) {
-          console.log(error);
+          throw new UserInputError(error.message, { invalidArgs: args });
         }
 
         return book;
@@ -153,7 +153,7 @@ const resolvers = {
       try {
         await authorToEdit.save();
       } catch (error) {
-        console.log(error);
+        throw new UserInputError(error.message, { invalidArgs: args });
       }
       return authorToEdit;
     },

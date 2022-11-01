@@ -12,5 +12,4 @@ const schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Author", schema); //Author
-// module.exports = mongoose.model("authors", schema); //Author
+module.exports = mongoose.model("Author", schema);
