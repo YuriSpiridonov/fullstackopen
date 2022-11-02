@@ -1,9 +1,16 @@
-const { ApolloServer, UserInputError, gql } = require("apollo-server");
+const {
+  ApolloServer,
+  UserInputError,
+  gql,
+  AuthenticationError,
+} = require("apollo-server");
 const config = require("./utils/config");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 const Author = require("./models/author");
 const Book = require("./models/book");
+const User = require("./models/User");
 
 console.log("connecting to ", config.MONGOOSE_URI);
 
@@ -17,6 +24,16 @@ mongoose
   });
 
 const typeDefs = gql`
+  type User {
+    username: String!
+    favoriteGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Author {
     name: String!
     bookCount: Int!
@@ -37,6 +54,7 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -47,6 +65,9 @@ const typeDefs = gql`
       genres: [String!]!
     ): Book!
     editAuthor(name: String!, born: Int!): Author
+    createUser(username: String!, favoriteGenre: String!): User
+    login(username: String!, password: String!): Token
+    addFavoriteGenre(favoriteGenre: String!): User
   }
 `;
 
@@ -105,10 +126,8 @@ const resolvers = {
           return books;
       }
     },
-    allAuthors: async () => {
-      const allAuthors = await Author.find({});
-      return allAuthors;
-    },
+    allAuthors: async () => await Author.find({}),
+    me: (root, args, context) => context.currentUser,
   },
   Author: {
     bookCount: async (root) =>
@@ -118,7 +137,12 @@ const resolvers = {
     author: async (root) => await Author.findById(root.author),
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      const currentUser = context.currentUser;
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated");
+      }
+
       const currentAuthor = await Author.findOne({ name: args.author });
       if (!currentAuthor) {
         const author = new Author({ name: args.author });
@@ -143,7 +167,13 @@ const resolvers = {
         return book;
       }
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      const currentUser = context.currentUser;
+
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated");
+      }
+
       const authorToEdit = await Author.findOne({ name: args.name });
       if (!authorToEdit) {
         return null;
@@ -157,12 +187,58 @@ const resolvers = {
       }
       return authorToEdit;
     },
+    createUser: async (root, args) => {
+      const user = new User({
+        username: args.username,
+        favoriteGenre: args.favoriteGenre,
+      });
+
+      try {
+        await user.save();
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        });
+      }
+      return user;
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username });
+
+      if (!user || args.password !== process.env.PASSWORD) {
+        throw new UserInputError("wrong credentials");
+      }
+
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      };
+
+      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
+    },
+    // addFavoriteGenre: async (root, args, { currentUser }) => {
+    //   null;
+    // },
   },
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: process.env.NODE_ENV !== "production",
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.toLowerCase().startsWith("bearer ")) {
+      const decodedToken = jwt.verify(
+        auth.substring(7),
+        process.env.JWT_SECRET
+      );
+      const currentUser = await User.findOne({ _id: decodedToken.id }).populate(
+        "favoriteGenre"
+      );
+      return { currentUser };
+    }
+  },
 });
 
 server.listen().then(({ url }) => {
