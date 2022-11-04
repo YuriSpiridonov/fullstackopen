@@ -36,7 +36,7 @@ const Authors = (props) => {
             <th>books</th>
           </tr>
           {authors.map((a) => (
-            <tr key={a.name}>
+            <tr key={a.id}>
               <td>{a.name}</td>
               <td>{a.born}</td>
               <td>{a.bookCount}</td>
@@ -56,12 +56,13 @@ const Authors = (props) => {
 
             {/* Authors without birth year */}
             {/* Warning: Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>. */}
-            <option hidden disabled selected value>
+            <option value="DEFAULT">
+              {/* <option hidden disabled selected value> */}
               --- select an author ---
             </option>
             {authors.map((a) =>
               a && !a.born ? (
-                <option key={a.name} value={a.name}>
+                <option key={a.id} value={a.name}>
                   {a.name}
                 </option>
               ) : null
