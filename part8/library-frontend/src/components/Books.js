@@ -2,9 +2,6 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { ALL_BOOKS } from "../queries";
 
-// const Books = async (props) => {
-//   const result = await useQuery(ALL_BOOKS);
-
 const getGenres = (books) => {
   const genres = [];
   books.forEach((book) => {
@@ -17,13 +14,6 @@ const getGenres = (books) => {
   return genres;
 };
 
-// const filterBooks = (books, genre) => {
-//   if (genre === "all books") {
-//     return null;
-//   }
-//   return books.reduce((book) => book.genres.includes(genre));
-// };
-
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS);
   const [selectedGenre, setSelectedGenre] = useState(null);
@@ -33,17 +23,7 @@ const Books = (props) => {
   }
 
   const books = result.data.allBooks;
-  console.log("books ", books);
-  let genres = getGenres(books);
-  // let genres = [];
-  // genres = books.forEach((book) => {
-  //   book.genres.forEach((genre) => {
-  //     if (!genres.includes(genre)) {
-  //       genres.push(genre);
-  //     }
-  //   });
-  // });
-  console.log("genres ", genres);
+  const genres = getGenres(books);
 
   const filterBooks = () => {
     if (!selectedGenre) {
