@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../queries";
+import { LOGIN } from "../queries"; // , LOGGED_USER
 
 const Login = ({ setError, setToken, show }) => {
   const [username, setUsername] = useState("");
@@ -10,6 +10,12 @@ const Login = ({ setError, setToken, show }) => {
     onError: (error) => {
       setError(error.graphQLErrors[0].message);
     },
+    // update: (cache, response) => {
+    //   cache.updateQuery({ query: LOGGED_USER }, ({ me }) => {
+    //     return { me: me.concat(response.data.me) };
+    //   });
+    // },
+    // refetchQueries: ["LOGGED_USER"],
   });
 
   useEffect(() => {
