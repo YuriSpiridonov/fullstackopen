@@ -5,8 +5,6 @@ const Author = require("./models/author");
 const Book = require("./models/book");
 const User = require("./models/User");
 
-// const JWT_SECRET = "secret";
-
 const pubsub = new PubSub();
 
 const resolvers = {
@@ -156,9 +154,6 @@ const resolvers = {
 
       return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
     },
-    // addFavoriteGenre: async (root, args, { currentUser }) => {
-    //   null;
-    // },
   },
   Subscription: {
     bookAdded: {
