@@ -1,14 +1,15 @@
 const { UserInputError, AuthenticationError } = require("apollo-server");
 const { PubSub } = require("graphql-subscriptions");
 const jwt = require("jsonwebtoken");
-const Author = require("./models/author");
-const Book = require("./models/book");
+const Author = require("./models/Author");
+const Book = require("./models/Book");
 const User = require("./models/User");
 
 const pubsub = new PubSub();
 
 const resolvers = {
   Query: {
+    me: (root, args, context) => context.currentUser,
     bookCount: async () => await Book.collection.countDocuments(), // books.length,
     authorCount: async () => await Author.collection.countDocuments(), // authors.length,
     allBooks: async (root, args) => {
@@ -62,17 +63,81 @@ const resolvers = {
           return books;
       }
     },
-    allAuthors: async () => await Author.find({}),
-    me: (root, args, context) => context.currentUser,
+    allAuthors: async () =>
+      // await Author.find({}),
+      {
+        const authors = await Author.find({});
+        const allAuthors = authors.map((author) => {
+          // return { ...author, bookCount: author.books.length };
+          return {
+            name: author.name,
+            born: author.born,
+            bookCount: author.books.length,
+            id: author._id,
+          };
+        });
+        // console.log(allAuthors);
+        return allAuthors;
+      },
   },
-  Author: {
-    bookCount: async (root) =>
-      await Book.collection.countDocuments({ author: root._id }),
-  },
+  // Author: {
+  //   bookCount: async (root) =>
+  //     await Book.collection.countDocuments({ author: root._id }),
+  // },
   Book: {
     author: async (root) => await Author.findById(root.author),
   },
+  // Author: {
+  //   bookCount: async (root) => {
+  //     console.log("book count");
+  //     await Book.collection.countDocuments({ author: root._id });
+  //     // const books = await Book.find({
+  //     //   books: {
+  //     //     $in: root._id,
+  //     //   },
+  //     // });
+
+  //     // return books.length;
+  //   },
+  // },
+  // Book: {
+  //   author: async (root) => {
+  //     console.log("book");
+  //     await Author.findById(root.author);
+  //   },
+  // },
   Mutation: {
+    createUser: async (root, args) => {
+      const user = new User({
+        username: args.username,
+        favoriteGenre: args.favoriteGenre,
+      });
+
+      try {
+        await user.save();
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        });
+      }
+      return user;
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username });
+
+      if (!user || args.password !== process.env.PASSWORD) {
+        throw new UserInputError("wrong credentials");
+      }
+
+      const userForToken = {
+        username: user.username,
+        favoriteGenre: user.favoriteGenre,
+        id: user._id,
+      };
+      // console.log("userForToken", userForToken);
+
+      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
+    },
     addBook: async (root, args, context) => {
       const currentUser = context.currentUser;
       if (!currentUser) {
@@ -82,20 +147,27 @@ const resolvers = {
       const currentAuthor = await Author.findOne({ name: args.author });
       if (!currentAuthor) {
         const author = new Author({ name: args.author });
-
+        // console.log("new author books 1 ", author);
         try {
-          await author.save();
+          // await author.save();
           const book = new Book({ ...args, author: author._id });
+          author.books = author.books.concat(book._id);
+          // console.log("new author books 2 ", author);
+          await author.save();
           await book.save();
+          pubsub.publish("BOOK_ADDED", { bookAdded: book }); // ?????
+          // pubsub.publish("AUTHOR_ADDED", { authorAdded: author });
           return book;
         } catch (error) {
           throw new UserInputError(error.message, { invalidArgs: args });
         }
       } else {
         const book = new Book({ ...args, author: currentAuthor._id });
+        currentAuthor.books = currentAuthor.books.concat(book._id);
 
         try {
           await book.save();
+          await currentAuthor.save();
         } catch (error) {
           throw new UserInputError(error.message, { invalidArgs: args });
         }
@@ -125,40 +197,14 @@ const resolvers = {
       }
       return authorToEdit;
     },
-    createUser: async (root, args) => {
-      const user = new User({
-        username: args.username,
-        favoriteGenre: args.favoriteGenre,
-      });
-
-      try {
-        await user.save();
-      } catch (error) {
-        throw new UserInputError(error.message, {
-          invalidArgs: args,
-        });
-      }
-      return user;
-    },
-    login: async (root, args) => {
-      const user = await User.findOne({ username: args.username });
-
-      if (!user || args.password !== process.env.PASSWORD) {
-        throw new UserInputError("wrong credentials");
-      }
-
-      const userForToken = {
-        username: user.username,
-        id: user._id,
-      };
-
-      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
-    },
   },
   Subscription: {
     bookAdded: {
       subscribe: () => pubsub.asyncIterator("BOOK_ADDED"),
     },
+    // authorAdded: {
+    //   subscribe: () => pubsub.asyncIterator("AUTHOR_ADDED"),
+    // },
   },
 };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../queries"; // , LOGGED_USER
+import { LOGIN } from "../queries";
 
 const Login = ({ setError, setToken, show }) => {
   const [username, setUsername] = useState("");
@@ -10,12 +10,6 @@ const Login = ({ setError, setToken, show }) => {
     onError: (error) => {
       setError(error.graphQLErrors[0].message);
     },
-    // update: (cache, response) => {
-    //   cache.updateQuery({ query: LOGGED_USER }, ({ me }) => {
-    //     return { me: me.concat(response.data.me) };
-    //   });
-    // },
-    // refetchQueries: ["LOGGED_USER"],
   });
 
   useEffect(() => {
@@ -30,12 +24,17 @@ const Login = ({ setError, setToken, show }) => {
     return null;
   }
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   const submit = async (event) => {
     event.preventDefault();
 
     login({ variables: { username, password } });
     setUsername("");
     setPassword("");
+    refreshPage();
   };
 
   return (
@@ -51,7 +50,7 @@ const Login = ({ setError, setToken, show }) => {
         <div>
           password:{" "}
           <input
-            type="current-password"
+            type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
