@@ -3,7 +3,6 @@ import { useQuery } from "@apollo/client";
 import { ALL_BOOKS } from "../queries";
 
 const Recommend = ({ show, user }) => {
-  console.log("user check ", user);
   const favoriteGenre = user ? user.favoriteGenre : null;
   const books = useQuery(ALL_BOOKS);
 
