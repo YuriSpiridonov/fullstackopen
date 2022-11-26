@@ -69,12 +69,6 @@ const Authors = (props) => {
             )}
           </select>
         </div>
-        {/* <div>
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
-        </div> */}
         <div>
           <input
             value={born}

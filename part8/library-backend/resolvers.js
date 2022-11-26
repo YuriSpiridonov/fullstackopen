@@ -10,8 +10,8 @@ const pubsub = new PubSub();
 const resolvers = {
   Query: {
     me: (root, args, context) => context.currentUser,
-    bookCount: async () => await Book.collection.countDocuments(), // books.length,
-    authorCount: async () => await Author.collection.countDocuments(), // authors.length,
+    bookCount: async () => await Book.collection.countDocuments(),
+    authorCount: async () => await Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       // Implementation with IF ELSE statement
       // const books = await Book.find({}).populate("author");
@@ -63,49 +63,22 @@ const resolvers = {
           return books;
       }
     },
-    allAuthors: async () =>
-      // await Author.find({}),
-      {
-        const authors = await Author.find({});
-        const allAuthors = authors.map((author) => {
-          // return { ...author, bookCount: author.books.length };
-          return {
-            name: author.name,
-            born: author.born,
-            bookCount: author.books.length,
-            id: author._id,
-          };
-        });
-        // console.log(allAuthors);
-        return allAuthors;
-      },
+    allAuthors: async () => {
+      const authors = await Author.find({});
+      const allAuthors = authors.map((author) => {
+        return {
+          name: author.name,
+          born: author.born,
+          bookCount: author.books.length,
+          id: author._id,
+        };
+      });
+      return allAuthors;
+    },
   },
-  // Author: {
-  //   bookCount: async (root) =>
-  //     await Book.collection.countDocuments({ author: root._id }),
-  // },
   Book: {
     author: async (root) => await Author.findById(root.author),
   },
-  // Author: {
-  //   bookCount: async (root) => {
-  //     console.log("book count");
-  //     await Book.collection.countDocuments({ author: root._id });
-  //     // const books = await Book.find({
-  //     //   books: {
-  //     //     $in: root._id,
-  //     //   },
-  //     // });
-
-  //     // return books.length;
-  //   },
-  // },
-  // Book: {
-  //   author: async (root) => {
-  //     console.log("book");
-  //     await Author.findById(root.author);
-  //   },
-  // },
   Mutation: {
     createUser: async (root, args) => {
       const user = new User({
@@ -134,7 +107,6 @@ const resolvers = {
         favoriteGenre: user.favoriteGenre,
         id: user._id,
       };
-      // console.log("userForToken", userForToken);
 
       return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
     },
@@ -147,16 +119,12 @@ const resolvers = {
       const currentAuthor = await Author.findOne({ name: args.author });
       if (!currentAuthor) {
         const author = new Author({ name: args.author });
-        // console.log("new author books 1 ", author);
         try {
-          // await author.save();
           const book = new Book({ ...args, author: author._id });
           author.books = author.books.concat(book._id);
-          // console.log("new author books 2 ", author);
           await author.save();
           await book.save();
           pubsub.publish("BOOK_ADDED", { bookAdded: book }); // ?????
-          // pubsub.publish("AUTHOR_ADDED", { authorAdded: author });
           return book;
         } catch (error) {
           throw new UserInputError(error.message, { invalidArgs: args });
@@ -202,9 +170,6 @@ const resolvers = {
     bookAdded: {
       subscribe: () => pubsub.asyncIterator("BOOK_ADDED"),
     },
-    // authorAdded: {
-    //   subscribe: () => pubsub.asyncIterator("AUTHOR_ADDED"),
-    // },
   },
 };
 

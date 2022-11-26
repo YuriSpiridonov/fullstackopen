@@ -14,15 +14,7 @@ import Login from "./components/Login";
 import Notification from "./components/Notification";
 import Recommend from "./components/Recommend";
 
-import {
-  ALL_AUTHORS,
-  ALL_BOOKS,
-  // AUTHOR_ADDED,
-  BOOK_ADDED,
-  // ME,
-  // BOOK_DETAILS,
-  LOGGED_USER,
-} from "./queries";
+import { ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED, LOGGED_USER } from "./queries";
 
 export const updateCache = (cache, query, addedBook) => {
   const uniqByName = (a) => {
