@@ -44,7 +44,7 @@ const Login = ({ setError, setToken, show }) => {
           username:{" "}
           <input
             value={username}
-            onChange={({ target }) => setUsername(target.value)} // what is it? target
+            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>

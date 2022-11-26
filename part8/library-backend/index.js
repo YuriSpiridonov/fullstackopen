@@ -3,8 +3,6 @@ const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const express = require("express");
 const http = require("http");
-// const DataLoader = require("dataloader");
-// const { execute, subscribe } = require("graphql");
 const { WebSocketServer } = require("ws");
 const { useServer } = require("graphql-ws/lib/use/ws");
 
@@ -13,7 +11,6 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 const User = require("./models/User");
-// const Author = require("./models/Author");
 
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
@@ -41,31 +38,6 @@ const start = async () => {
   });
   const serverCleanup = useServer({ schema }, wsServer);
 
-  //
-  // const allTheAuthors = async (keys) => {
-  //   const authors = await Author.find({
-  //     _id: {
-  //       $in: keys,
-  //     },
-  //   });
-  // .findAll({
-  //   where: {
-  //     author: {
-  //       name: {
-  //         $in: keys,
-  //       },
-  //     },
-  //   },
-  // });
-
-  //   return keys.map(
-  //     (key) =>
-  //       authors.find((author) => author.id === key) ||
-  //       new Error(`No result for ${key}`)
-  //   );
-  // };
-  //
-
   const server = new ApolloServer({
     schema,
     context: async ({ req }) => {
@@ -76,22 +48,12 @@ const start = async () => {
           process.env.JWT_SECRET
         );
         const currentUser = await User.findById({
-          // findOne
           _id: decodedToken.id,
-        }); // .populate("favoriteGenre");
-        // console.log("context user ", currentUser);
+        });
         return {
           currentUser,
-          // loaders: {
-          //   author: new DataLoader((keys) => allTheAuthors(keys)),
-          // },
         };
       }
-      // return {
-      //   loaders: {
-      //     author: new DataLoader((keys) => allTheAuthors(keys)),
-      //   },
-      // };
     },
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
@@ -114,7 +76,7 @@ const start = async () => {
     path: "/",
   });
 
-  const PORT = process.env.PORT; // 4000;
+  const PORT = process.env.PORT;
 
   httpServer.listen(PORT, () =>
     console.log(`Server is now running on http://localhost:${PORT}`)
