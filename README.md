@@ -82,3 +82,13 @@ This part is about GraphQL, Facebook's alternative to REST API for communication
 
 - [library-backend](/part8/library-backend) - The app source code.
 - [library-frontend](/part8/library-frontend) - The app source code.
+
+### Part 9 - [TypeScript](https://fullstackopen.com/en/part9)
+
+// I will study this part a little bit later.
+
+### Part 10 - [React Native](https://fullstackopen.com/en/part10)
+
+This part is about how to build native Android and iOS mobile applications with _JavaScript_ and _React_ using the _React Native_ framework. By developing an entire mobile application from scratch this part gives a good dive into the React Native ecosystem. It covers concepts such as how to render native user interface components with _React Native_, how to create beautiful user interfaces, how to communicate with a server, and how to test a _React Native_ application.
+
+- [rate-repository-app](https://github.com/YuriSpiridonov/rate-repository-app) - The app source code.
