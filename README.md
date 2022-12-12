@@ -8,9 +8,11 @@ The course introduce to modern JavaScript-based web development. The main focus 
 
 This repository contains my own exercise solutions to the 2021/22 edition of the [Full Stack Open](https://fullstackopen.com/en) course from the [University of Helsinki](https://www.helsinki.fi/en).
 
-### Certificate
+### Certificates
 
 ![Certificate of completion Fullstack Open Course from the University of Helsinki](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/10f672c8c354ba05171fa6c640b920b2)
+
+[Certificate of completion GraphQL part of the course](https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/9a4f9bce80477a2d58ca343c91f59e5b)
 
 ### Part 0 - [Fundamentals of Web apps](https://fullstackopen.com/en/part0)
 
@@ -24,7 +26,7 @@ An overall introduction to the course. It introduces to some concepts like HTTP 
 
 ### Part 1 - [Introduction to React](https://fullstackopen.com/en/part1)
 
-This part introduces to _React_ concepts. It covers the basics: components, props, JSX and more advanced concepts: Javascript functionalities that are used a lot in _React_ (`.map()`, `.filter()`, `.reduce()`), destructuring, event handlers in _React_ and passing state to child components, spread operator, hooks and their rules and conditional rendering.
+This part introduces to _React_ concepts. It covers the basics: components, props, _JSX_ and more advanced concepts: _Javascript_ functionalities that are used a lot in _React_ (`.map()`, `.filter()`, `.reduce()`), destructuring, event handlers in _React_ and passing state to child components, spread operator, hooks and their rules and conditional rendering.
 
 - [courseinfo](/part1/courseinfo) - Simple course information page which counts total number of exercises of the course.
 - [unicafe](/part1/unicafe) - This app gathers feedbacks and makes statistic.
@@ -34,7 +36,7 @@ This part introduces to _React_ concepts. It covers the basics: components, prop
 
 ### Part 2 - [Communicating with server](https://fullstackopen.com/en/part2)
 
-This part covers how to display list items in _React_ and how to handle forms. Introduces _JSON server_ and fetching data from it, _axios_ for sending `GET`, `PUT`, `POST` and `DELETE` requests and how to style your React app (CSS).
+This part covers how to display list items in _React_ and how to handle forms. Introduces _JSON server_ and fetching data from it, _axios_ for sending `GET`, `PUT`, `POST` and `DELETE` requests and how to style your _React_ app (CSS).
 
 - [courseinfo](/part2/courseinfo) - Extended Course info app from part 1.
 - [phonebook](/part2/phonebook) - Phonebook, add/delete contacts with numbers, edit numbers.
@@ -61,7 +63,7 @@ This part is focused on token based authentication and testing the _React_ compo
 
 ### Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
 
-This part is focused on Redux, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use Redux with hooks, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
+This part is focused on _Redux_, which can be used for more complex state management of your _React_ app (covers concepts like immutability, global store, actions and reducers). Also this chapter covers how to use _Redux_ with `hooks`, and how to use the old `connect` higher order component when you work on older code bases, and `redux thunk` for asynchronous code.
 
 - [unicafe-redux](/part6/unicafe-redux) - The app source code.
 - [redux-anecdotes](/part6/redux-anecdotes) - The app source code.
@@ -78,7 +80,7 @@ This part handles a lot of different subjects. Such as _React router_ (with hook
 
 ### Part 8 - [GraphQL](https://fullstackopen.com/en/part8)
 
-This part is about GraphQL, Facebook's alternative to REST API for communication between browser and server. In this parts covered basic GraphQL concepts like `schema`, `queries` and `resolver` also how to setup and use [Apollo's](https://www.apollographql.com/) `ApolloServer` and `ApolloClient`.
+This part is about _GraphQL_, Facebook's alternative to REST API for communication between browser and server. In this parts covered basic GraphQL concepts like `schema`, `queries` and `resolver` also how to setup and use [Apollo's](https://www.apollographql.com/) `ApolloServer` and `ApolloClient`.
 
 - [library-backend](/part8/library-backend) - The app source code.
 - [library-frontend](/part8/library-frontend) - The app source code.
@@ -89,6 +91,6 @@ This part is about GraphQL, Facebook's alternative to REST API for communication
 
 ### Part 10 - [React Native](https://fullstackopen.com/en/part10)
 
-This part is about how to build native Android and iOS mobile applications with _JavaScript_ and _React_ using the _React Native_ framework. By developing an entire mobile application from scratch this part gives a good dive into the React Native ecosystem. It covers concepts such as how to render native user interface components with _React Native_, how to create beautiful user interfaces, how to communicate with a server, and how to test a _React Native_ application.
+This part is about how to build native Android and iOS mobile applications with _JavaScript_ and _React_ using the _React Native_ framework. By developing an entire mobile application from scratch this part gives a good dive into the _React Native_ ecosystem. It covers concepts such as how to render native user interface components with _React Native_, how to create beautiful user interfaces, how to communicate with a server, and how to test a _React Native_ application.
 
 - [rate-repository-app](https://github.com/YuriSpiridonov/rate-repository-app) - The app source code.
