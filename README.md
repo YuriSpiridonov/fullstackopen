@@ -2,7 +2,7 @@
 
 ### About the course
 
-The course introduce to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use REST APIs built with _Node.js_. This course covers: _React_, _Redux_, _Node.js_, _MongoDB_, _GraphQL_ and _TypeScript_.
+The course introduce to modern JavaScript-based web development. The main focus is on building single page applications with ReactJS that use _REST APIs_ built with _Node.js_. This course covers: _React_, _Redux_, _Node.js_, _MongoDB_, _GraphQL_ and _TypeScript_.
 
 ### About this repository
 
@@ -44,7 +44,7 @@ This part covers how to display list items in _React_ and how to handle forms. I
 
 ### Part 3 - [Programming a server with NodeJS and Express](https://fullstackopen.com/en/part3)
 
-This part is focused on the backend. How to: implement a simple REST API in _Node.js_ using _Express_, connect to a database (_MongoDB_) to store and retrieve data, deploy your app.
+This part is focused on the backend. How to: implement a simple _REST API_ in _Node.js_ using _Express_, connect to a database (_MongoDB_) to store and retrieve data, deploy your app.
 
 - [phonebook](/part3/phonebookbackend) - The app source backend code.
 - [phonebook](https://phonebook6.herokuapp.com/) - The app deployed on Heroku. Frontend from part 2 and Backend from part 3 works together.
@@ -80,7 +80,7 @@ This part handles a lot of different subjects. Such as _React router_ (with hook
 
 ### Part 8 - [GraphQL](https://fullstackopen.com/en/part8)
 
-This part is about _GraphQL_, Facebook's alternative to REST API for communication between browser and server. In this parts covered basic GraphQL concepts like `schema`, `queries` and `resolver` also how to setup and use [Apollo's](https://www.apollographql.com/) `ApolloServer` and `ApolloClient`.
+This part is about _GraphQL_, Facebook's alternative to _REST API_ for communication between browser and server. In this parts covered basic GraphQL concepts like `schema`, `queries` and `resolver` also how to setup and use [Apollo's](https://www.apollographql.com/) `ApolloServer` and `ApolloClient`.
 
 - [library-backend](/part8/library-backend) - The app source code.
 - [library-frontend](/part8/library-frontend) - The app source code.
