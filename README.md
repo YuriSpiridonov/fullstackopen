@@ -14,6 +14,8 @@ This repository contains my own exercise solutions to the 2021/22 edition of the
 
 [Certificate of completion GraphQL part of the course](https://studies.cs.helsinki.fi/stats/api/certificate/fs-graphql/en/9a4f9bce80477a2d58ca343c91f59e5b)
 
+[Certificate of completion CI/CD part of the course](https://studies.cs.helsinki.fi/stats/api/certificate/fs-cicd/en/94e6f70bdae2d7eea8861fa8ce87adf0)
+
 ### Part 0 - [Fundamentals of Web apps](https://fullstackopen.com/en/part0)
 
 An overall introduction to the course. It introduces to some concepts like HTTP requests, how traditional web apps work, DOM, CSS and Single Page Applications.
@@ -100,3 +102,6 @@ This part is about how to build native Android and iOS mobile applications with 
 This part shows and esplains of why you should use _Continuous Integration / Continuous Delivery (CI/CD) system_ and what can it do for you. And how to get started with _[GitHub Actions](https://github.com/features/actions)_.
 
 - [full-stack-open-pokedex](https://github.com/YuriSpiridonov/full-stack-open-pokedex) - Exercise repository.
+- [full-stack-open-pokedex](https://pokedex-fso.fly.dev/) - Deployed app.
+- [phonebook-cicd](https://github.com/YuriSpiridonov/phonebook-cicd) - Exercice repository. Pipeline for another project.
+- [phonebook-cicd](https://phonebook-cicd.fly.dev/) - Deployed app.
